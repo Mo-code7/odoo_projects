@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<odoo> 
+    
+    <!-- TREE للبنود فقط -->
+    <!-- ========================= -->
+    <record id="view_project_issue_line_tree" model="ir.ui.view">
+        <field name="name">project.issue.line.tree</field>
+        <field name="model">project.issue.line</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="(is_late)" string="List Items">
+                <header>
+            <button name="action_export_excel" type="object" string="Export Excel" icon="fa-file-excel-o"/>
+            <button name="action_export_pdf" type="object" string="Export PDF" icon="fa-file-pdf-o"/>
+                </header>
+                                            <field name="issue_id" string="Issue Number" readonly="1"/>
+        <field name="id" string="S.N" readonly="1"/>
+        <field name="is_late" column_invisible="1"/>
+        <field name="description" readonly="1"/>
+        <field name="image_url" widget="url" readonly="1"/>
+        <field name="reason" readonly="1"/>
+        <field name="Causing" readonly="1"/>
+        <field name="issue_type" readonly="1"/>
+        <field name="solving_problem" readonly="1"/>
+        <field name="resolved_by_id" readonly="1"/>
+        <field name="responsible_id" readonly="1"/>
+        <field name="issue_date" readonly="1"/>
+        <field name="solution_date" readonly="1"/>
+        <field name="actual_date" readonly="1"/>
+        <field name="notes" readonly="1"/>
+        <field name="sale_order_id" readonly="1"/>
+        <field name="partner_id" readonly="1"/>
+        <field name="production_id" readonly="1"/>
+        <field name="maintenance_id" readonly="1"/>
+        <field name="product_id" readonly="1"/>
+        <field name="state" widget="badge" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- ========================= -->
+    <!-- FORM + ONE2MANY للبنود -->
+    <!-- ========================= -->
+    <record id="view_project_issue_form" model="ir.ui.view">
+        <field name="name">project.issue.form</field>
+        <field name="model">project.issue</field>
+        <field name="arch" type="xml">
+            <form string="Project Problem">
+                <sheet>
+                    <header>
+                    <h1><field name="name"/></h1>
+
+                        <group>
+                            
+                    <field name="sale_order_id"/>
+                    <field name="partner_id"/> 
+                        </group>
+                    </header>
+                    <notebook>
+                        <page string="Problem Items">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                   <field name="id" string="S.N" readonly="1"/>
+                                    <field name="description"/>
+                                    <field name="image_url" widget="url"/>
+                                    <field name="reason"/>
+                                    <field name="Causing"/>
+                                    <field name="issue_type"/>
+                                    <field name="solving_problem"/>
+                                    <field name="resolved_by_id"/>
+                                    <field name="responsible_id"/>
+                                    <field name="issue_date"/>
+                                    <field name="solution_date"/>
+                                    <field name="actual_date"/>
+                                    <field name="notes"/>
+                                    <field name="sale_order_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="production_id"/>
+                                    <field name="maintenance_id"/>
+                                    <field name="product_id"/>
+                                    <field name="state" widget="badge"/>
+                                    <!-- زر يبدأ التنفيذ -->
+                                    <button name="action_set_in_progress"
+                                            type="object"
+                                            string="Start"
+                                            class="btn-primary"
+                                             invisible="state == 'in_progress' or state == 'done'"/>
+
+
+                    
+                                    <button name="action_set_resolved"
+                                            type="object"
+                                            string="End"
+                                            class="btn-success"
+                                            invisible="state == 'done' or state == 'draft'"/>
+
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ========================= -->
+    <!-- ACTIONS -->
+    <!-- ========================= -->
+    <!-- Action لعرض مشكلة + البنود -->
+    <record id="action_project_issue" model="ir.actions.act_window">
+        <field name="name">List Items</field>
+        <field name="res_model">project.issue</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <!-- Action لعرض البنود فقط -->
+    <record id="action_project_issue_line" model="ir.actions.act_window">
+        <field name="name"> List Items</field>
+        <field name="res_model">project.issue.line</field>
+        <field name="view_mode">tree</field>
+         <!-- <field name="context">
+        {
+            'default_issue_id': 5
+        } 
+        </field> -->
+    </record>
+
+    <record id="action_project_issue_open_singleton" model="ir.actions.server"> 
+        <field name="name">Open Singleton Issue</field> 
+        <field name="model_id" ref="model_project_issue"/>
+        <field name="binding_model_id" ref="model_project_issue"/> 
+        <field name="state">code</field> 
+        <field name="code"> 
+            action = { 'type': 'ir.actions.act_window', 'res_model': 'project.issue', 'view_mode': 'form', 'res_id': 5, 'target': 'current', }
+        </field>
+    </record>
+
+    <record id="deadline_issue_date" model="ir.cron">
+        <field name="name">Deadline Issue Date</field>
+        <field name="model_id" ref="model_project_issue_line"/>
+        <field name="state">code</field>
+        <field name="code">model.deadline()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+    <!-- ========================= -->
+    <!-- MENU ITEMS -->
+    <!-- ========================= -->
+    <menuitem id="menu_project_issue_root" name="SNAG LIST"/>
+   
+    
+    <!-- Menu للبنود فقط -->
+    <menuitem id="menu_project_issue_line"
+              name="List Items"
+              parent="menu_project_issue_root"
+              action="action_project_issue_line"/>
+
+
+    <menuitem id="menu_project_issuess"
+              name="Problems"
+              parent="menu_project_issue_root"
+              action="action_project_issue"/> 
+
+
+</odoo>

@@ -1,0 +1,401 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* issue
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-02 11:01+0000\n"
+"PO-Revision-Date: 2025-12-02 13:12+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Generator: Poedit 3.8\n"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__product_id
+msgid " Product"
+msgstr "منتج"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__message_needaction
+msgid "Action Needed"
+msgstr "الإجراء مطلوب"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__activity_ids
+msgid "Activities"
+msgstr "أنشطة"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "زخرفة استثناء النشاط"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__activity_state
+msgid "Activity State"
+msgstr "حالة النشاط"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "رمز نوع النشاط"
+
+#. module: issue
+#: model:ir.model.fields.selection,name:issue.selection__project_issue_line__issue_type__administrative
+msgid "Administrative"
+msgstr "إداري"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__message_attachment_count
+msgid "Attachment Count"
+msgstr "عدد المرفقات"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__create_uid
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__create_uid
+msgid "Created by"
+msgstr "تم إنشاؤها بواسطة"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__create_date
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__create_date
+msgid "Created on"
+msgstr "تم الإنشاء بتاريخ"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__issue_date
+msgid "Date of problem"
+msgstr "تاريخ المشكلة"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__description
+msgid "Description"
+msgstr "وصف"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__display_name
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: issue
+#: model:ir.model.fields.selection,name:issue.selection__project_issue_line__state__draft
+msgid "Draft"
+msgstr "مسوده"
+
+#. module: issue
+#: model:ir.model.fields.selection,name:issue.selection__project_issue_line__issue_type__financial
+msgid "Financial"
+msgstr "مالي"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__message_follower_ids
+msgid "Followers"
+msgstr "متابعون"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "المتابعون (الشركاء)"
+
+#. module: issue
+#: model:ir.model.fields,help:issue.field_project_issue__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "أيقونة الخط الرائعة مثل fa-tasks"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__has_message
+msgid "Has Message"
+msgstr "لديه رسالة"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__id
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__id
+msgid "ID"
+msgstr "رقم تعريفي"
+
+#. module: issue
+#: model:ir.model.fields.selection,name:issue.selection__project_issue_line__state__in_progress
+msgid "IN progress"
+msgstr "قيد التقدم"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__activity_exception_icon
+msgid "Icon"
+msgstr "رمز"
+
+#. module: issue
+#: model:ir.model.fields,help:issue.field_project_issue__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "أيقونة للإشارة إلى نشاط استثناء."
+
+#. module: issue
+#: model:ir.model.fields,help:issue.field_project_issue__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "إذا تم تحديد هذا المربع، فإن الرسائل الجديدة تتطلب اهتمامك."
+
+#. module: issue
+#: model:ir.model.fields,help:issue.field_project_issue__message_has_error
+#: model:ir.model.fields,help:issue.field_project_issue__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "إذا تم تحديد هذا المربع، فقد يكون هناك خطأ في التسليم في بعض الرسائل."
+
+#. module: issue
+#: model:ir.model.fields.selection,name:issue.selection__project_issue__state__in_progress
+msgid "In progress"
+msgstr "قيد التقدم"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__message_is_follower
+msgid "Is Follower"
+msgstr "هو تابع"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__issue_date
+msgid "Item date"
+msgstr "تاريخ الرصد"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__state
+msgid "Item status"
+msgstr "حالة البند"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__issue_type
+msgid "Item type"
+msgstr "نوع البند"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__write_uid
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__write_date
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث بتاريخ"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__production_id
+msgid "Manufacturing order"
+msgstr "أمر التصنيع"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ في تسليم الرسالة"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__message_ids
+msgid "Messages"
+msgstr "رسائل"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "الموعد النهائي لنشاطي"
+
+#. module: issue
+#: model:ir.model.fields.selection,name:issue.selection__project_issue__state__new
+msgid "New"
+msgstr "جديد"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "حدث تقويم النشاط التالي"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "الموعد النهائي للنشاط التالي"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__activity_summary
+msgid "Next Activity Summary"
+msgstr "ملخص النشاط التالي"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع النشاط التالي"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الإجراءات"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الاخطاء"
+
+#. module: issue
+#: model:ir.model.fields,help:issue.field_project_issue__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "عدد الرسائل التي تتطلب اتخاذ إجراء"
+
+#. module: issue
+#: model:ir.model.fields,help:issue.field_project_issue__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد الرسائل التي بها خطأ في التسليم"
+
+#. module: issue
+#: model:ir.model.fields.selection,name:issue.selection__project_issue_line__issue_type__other
+msgid "Other"
+msgstr "اخرى"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__issue_id
+msgid "Problem"
+msgstr "مشكلة"
+
+#. module: issue
+#: model:ir.model,name:issue.model_project_issue_line
+#: model:ir.model.fields,field_description:issue.field_project_issue__line_ids
+#: model_terms:ir.ui.view,arch_db:issue.view_project_issue_form
+msgid "Problem items"
+msgstr "بند المشكلة"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__name
+msgid "Problem name"
+msgstr "اسم المشكلة"
+
+#. module: issue
+#: model:ir.actions.act_window,name:issue.action_project_issue
+#: model:ir.ui.menu,name:issue.menu_project_issue
+msgid "Problems"
+msgstr "المشاكل"
+
+#. module: issue
+#: model_terms:ir.ui.view,arch_db:issue.view_project_issue_form
+msgid "Project Problems"
+msgstr "مشكلة المشروع"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__rating_ids
+msgid "Ratings"
+msgstr "تقيمات"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__maintenance_id
+msgid "Repair/manufacture request"
+msgstr "طلب إصلاح/تصنيع"
+
+#. module: issue
+#: model:ir.model.fields.selection,name:issue.selection__project_issue__state__resolved
+msgid "Resolved"
+msgstr "تم الحل"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__activity_user_id
+msgid "Responsible User"
+msgstr "المستخدم المسؤول "
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__responsible_id
+msgid "Responsible for the solution"
+msgstr "المسؤول عن الحل"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ في تسليم الرسائل القصيرة"
+
+#. module: issue
+#: model_terms:ir.ui.view,arch_db:issue.view_project_issue_form
+msgid "Solved"
+msgstr "تم الحل"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__resolved_by_id
+msgid "Solved by"
+msgstr " الحل بواسطة"
+
+#. module: issue
+#: model_terms:ir.ui.view,arch_db:issue.view_project_issue_form
+msgid "Start implementing"
+msgstr "البدء في التنفيذ"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__state
+msgid "Status"
+msgstr "حالة"
+
+#. module: issue
+#: model:ir.model.fields,help:issue.field_project_issue__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"الحالة بناءً على الأنشطة\n"
+"متأخر: تاريخ الاستحقاق قد انقضى\n"
+"اليوم: تاريخ النشاط هو اليوم\n"
+"المخطط له: أنشطة مستقبلية."
+
+#. module: issue
+#: model:ir.model.fields.selection,name:issue.selection__project_issue_line__issue_type__technical
+msgid "Technical"
+msgstr "فنى"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__reason
+msgid "The cause of the problem"
+msgstr "سبب المشكلة"
+
+#. module: issue
+#: model:ir.ui.menu,name:issue.menu_project_issue_root
+msgid "Track problems"
+msgstr "تتبع المشاكل"
+
+#. module: issue
+#: model:ir.model,name:issue.model_project_issue
+msgid "Track project issues"
+msgstr "تتبع مشاكل المشروع"
+
+#. module: issue
+#: model:ir.model.fields,help:issue.field_project_issue__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع النشاط الاستثنائي المسجل."
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__image_url
+msgid "URL to the image of the problem"
+msgstr "رابط لصورة المشكلة"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__sale_order_id
+msgid "View price"
+msgstr "عرض السعر"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue__website_message_ids
+msgid "Website Messages"
+msgstr "رسائل الموقع"
+
+#. module: issue
+#: model:ir.model.fields,help:issue.field_project_issue__website_message_ids
+msgid "Website communication history"
+msgstr "تاريخ اتصالات الموقع"
+
+#. module: issue
+#: model:ir.model.fields,field_description:issue.field_project_issue_line__created_by_id
+msgid "Who added the item"
+msgstr "من أضاف المادة"
+
+#. module: issue
+#: model:ir.model.fields.selection,name:issue.selection__project_issue_line__state__done
+msgstr "finished"
+msgid "منتهي"
