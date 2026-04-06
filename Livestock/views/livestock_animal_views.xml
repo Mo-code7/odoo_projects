@@ -1,0 +1,1245 @@
+<?xml version="1.0" encoding="utf-8"?>      
+<odoo>     
+    <!-- Animal Breeding Views -->   
+    <record id="view_animal_breeding_list" model="ir.ui.view">
+        <field name="name">animal.breeding.tree</field>
+        <field name="model">animal.breeding</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="female_id"/>
+                <field name="male_id"/>
+                <field name="date"/>
+                <field name="type"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+  <record id="view_animal_breeding_form" model="ir.ui.view">
+    <field name="name">animal.breeding.form</field>
+    <field name="model">animal.breeding</field>
+    <field name="arch" type="xml">
+        <form>
+                <header>
+                <button name="action_done" type="object" string="ناجح" class="btn-primary" />
+                <button name="action_failed" type="object" string="فشل" class="btn-danger" />
+                <field name="state" widget="statusbar" statusbar_visible="pending,done,failed"/>
+            </header>
+            <sheet>
+               <div class="oe_button_box" name="button_box"> 
+                    <button name="action_view_moves"
+            type="object"
+            string="القيود"
+            icon="fa-book">
+            <field name="move_count" widget="statinfo" icon="fa-book"/>
+                    </button> 
+               </div>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="female_id"/>
+                        <field name="male_id"/>
+                        <field name="date"/>
+                         <field name="total_mandatory"/>
+                         <field name="total_artificial"/>
+                         <field name="journal_id"/>
+                        <field name="counterpart_account_id"/>
+                        
+                    </group>  
+                    <group>
+                        <field name="type"/>
+                        <field name="time_per"/>
+                        <field name="company_id" invisible="1"/>
+                    </group>  </group>
+                <notebook>
+                    <page string="بنود المصروفات">
+                        <field name="line_ids" widget="one2many_list">
+                            <list editable="bottom">
+                                <field name="date"/>
+                                <field name="account_id"/>
+                                <field name="analytic_account_id"/> 
+                                 
+                                <field name="amount"/>
+                                <field name="move_id"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+         </form>
+     </field>
+   </record>
+
+    <!-- الولادات Animal Birth Views  -->
+    <record id="view_animal_birth_list" model="ir.ui.view">
+        <field name="name">animal.birth.tree</field>
+        <field name="model">animal.birth</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="birth_date"/>
+                <field name="total_birth_value"/>
+                <field name="number_born"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_animal_birth_form" model="ir.ui.view">
+    <field name="name">animal.birth.form</field>
+    <field name="model">animal.birth</field>
+    <field name="arch" type="xml">
+        <form>     
+            <header>
+
+                <field name="status" widget="statusbar" statusbar_visible="pending,monitoring,done"/>
+                <button name="action_create_mo_for_animals"
+                        type="object"
+                        string="إنشاء تصنيع"
+                        class="btn-primary"/>
+                <button name="action_preview_stock_moves"
+                    string="عرض حركة المخزون"
+                    type="object"
+                    class="btn-primary"/>
+            </header>
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                        <button name="action_view_manufacturing_orders"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-industry">
+                            <field name="manufacturing_count" widget="statinfo" string="ولادات"/>
+                        </button>
+                      <button name="action_open_stock_moves"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-cubes">
+                            <field name="stock_moves_count" widget="statinfo" string="الحركات"/>
+                        </button>
+                    </div>
+                <group>
+                    <group>
+                        <field name="breeding_id"/> 
+                        <field name="birth_date"/>
+                        <field name="birth_time"/>
+                        <field name="mother_id"/>
+                        <field name="father_id"/> 
+                        <field name="total_birth_value"/> 
+                    </group>
+                    <group>
+                        <field name="birth_type"/>
+                        <field name="number_born"/>
+                        <field name="veterinarian"/>
+                        <field name="complications"/>
+                        <field name="treatment_given"/>
+                        <field name="cost"/>             
+                    </group>
+                </group>
+                <notebook>
+                    <page string="الولادات">
+                        <field name="lines"/>
+                        <field name='total_birth_value'/>
+                    </page>
+                    <page string="معلومات اخري">
+                        <group>
+                            <group>
+                            <field name="company_id"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="activity_ids" widget="mail_activity"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+        </form>
+    </field>
+</record>
+
+
+    <!-- Livestock Farm Views -->
+
+
+    <!-- Livestock Animal Views -->
+    <record id="view_livestock_animal_list" model="ir.ui.view">
+        <field name="name">livestock.animal.tree</field>
+        <field name="model">livestock.animal</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="product"/>
+                <field name="tag_no"/>
+                <field name="type"/>
+                <field name="gender"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+<record id="action_update_age_server" model="ir.actions.server">
+    <field name="name">تحديث العمر</field>
+    <field name="model_id" ref="model_livestock_animal"/>
+    <field name="binding_model_id" ref="model_livestock_animal"/>
+    <field name="state">code</field>
+    <field name="binding_view_types">list</field>
+    <field name="code">
+        records.action_update_all_ages()
+    </field>
+</record>
+    <record id="view_livestock_animal_form" model="ir.ui.view">
+        <field name="name">livestock.animal.form</field>
+        <field name="model">livestock.animal</field>
+        <field name="arch" type="xml">
+            <form>
+        <header>
+          <button name="action_set_alive" string="حي" type="object" class="btn-success"/>
+          <button name="action_set_sick" string="مريض" type="object" class="btn-warning"/>
+          <button name="action_set_dead" string="نافق" type="object" class="btn-danger"/>
+          <button name="action_set_sold" string="تم بيعه" type="object" class="btn-info"/>
+          <field name="status" widget="statusbar" statusbar_visible="alive,sick,dead,sold"/>   
+        </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="tag_no"/>
+                            <field name="type"/>
+                            <field name="breeding"/>
+                            <field name="gender"/>
+                        </group>
+                        <group>
+                            <field name="cow_type"/>
+                            <field name="product"/>
+                            <field name="farm_id"/>
+                            </group>
+                            <group>
+                            <field name="birth_date"/>
+                            <field name="current_weight"/>
+                            </group>
+                        <group>
+                            <field name="age" readonly="1"/>
+                            <field name="age_years" readonly="1"/>
+                            <field name="age_months" readonly="1"/>
+                            </group>
+                        </group>
+                    <notebook>
+                      <page string="الملخص التحليلي">
+                        <group>
+                            <group string="بيانات الشراءو الواردات">
+                                <field name="purchase_value"/>
+                                <field name="import_value"/>
+                            </group>
+                            <group string='بيانات البيع والربح'>
+                                <field name="sale_value"/>
+                                <field name="net_profit"/>
+                                <field name="profit_ratio"/>
+                                <field name="annual_rate"/>
+                            </group>
+                            <group string="مصروفات">
+                                <field name="food_total"/>
+                                <field name="med_total"/>
+                                <field name="other_cost"/>
+                            </group>
+                            <group string='إيرادات'>
+                                <field name="milk_revenues"/>
+                                <field name="birth_revenues"/>
+                                <field name="other_revenues"/>
+                            </group>
+                            <group string='الإجماليات'>
+                                <field name="total_expenses"/>
+                                <field name="total_revenues"/>
+                                <field name="animal_value_total"/>
+                                <field name="total_deducting"/>
+                            </group>
+                            <group>
+                                <field name="stay_duration"/>
+                            </group>
+                        </group> 
+                      </page>
+                        
+                        <page string="الطعام">
+                            <field name="food_record_ids">
+                                <list editable="bottom">
+                                    <field name="products"/>
+                                    <field name="date"/>
+                                    <field name="weight"/>
+                                    <field name="quantity"/>
+                                    <field name="editing"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="الموازين">
+                            <field name="scale_record_ids">
+                                <list editable="bottom">
+                                    <field name="date"/>
+                                    <field name="weight"/>
+                                    <field name="we_emp"/>
+                                    <field name="prog_pers"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="الولادات">
+                            <field name='birth_id'>
+                                <!-- <list>
+                                    <field name="name"/>
+                                    <field name="birth_date"/>
+                                    <field name="total_birth_value"/>
+                                    <field name="number_born"/>
+                                    <field name="status"/>
+                                </list>     -->
+                            </field>
+                        </page>
+                        <page string="إيرادات آخرى">
+                        </page>
+                        <page string="العلاج">
+                            <field name="dose_ids">
+                                <list>
+                                    <field name="vaccine_name"/>
+                                    <field name="vaccination_date"/>
+                                    <field name="status"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="بيانات آخرى">
+                            <group>
+                                <group>
+                                    <field name="entry_date"/>
+                                    <field name="exit_date"/>   
+                                </group>
+                                 <group>
+                                     <field name="mother_id"/>
+                                     <field name="father_id"/>  
+                                </group>
+                                <group>
+                                    <field name="company_id"/>
+                                </group>
+                                <group>
+                                    <field name="origin"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Milk Production Views -->
+    <record id="view_milk_production_list" model="ir.ui.view">
+        <field name="name">milk.production.tree</field>
+        <field name="model">milk.production</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date"/>
+                <field name="session"/>
+                <field name="total_quantity"/>
+                <field name="quality_grade"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_milk_production_form" model="ir.ui.view">
+        <field name="name">milk.production.form</field>
+        <field name="model">milk.production</field>
+        <field name="arch" type="xml"> 
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="session"/>
+                            <field name="milker_name"/>
+                            <field name="equipment_used"/>
+                            <field name="storage_location"/>
+                           
+                        </group>
+                        <group>
+                            <field name="quality_grade"/>
+                            <field name="fat_content"/>
+                            <field name="protein_content"/>
+                            <field name="temperature"/>
+                            <field name="total_quantity"/>
+                        </group>
+                    </group>
+                     <notebook>
+                    <page string="بنود الأبقار">
+                        <field name="line_ids">
+                            <list editable="bottom">
+                                <field name="animal_id"/>
+                                <field name="quantity"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Meat Production Views -->
+    <record id="view_meat_production_list" model="ir.ui.view">
+        <field name="name">meat.production.tree</field>
+        <field name="model">meat.production</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="animal_id"/>
+                <field name="slaughter_date"/>
+                <field name="carcass_weight"/>
+                <field name="meat_grade"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_meat_production_form" model="ir.ui.view">
+        <field name="name">meat.production.form</field>
+        <field name="model">meat.production</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="animal_id"/>
+                            <field name="slaughter_date"/>
+                            <field name="live_weight"/>
+                            <field name="carcass_weight"/>
+                            <field name="dressing_percentage" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="meat_grade"/>
+                            <field name="slaughterhouse"/>
+                            <field name="veterinary_inspection"/>
+                            <field name="halal_certified"/>
+                        </group>
+                    </group>          
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Veterinary Treatment Views -->
+    <record id="view_veterinary_treatment_list" model="ir.ui.view">
+        <field name="name">veterinary.treatment.tree</field>
+        <field name="model">veterinary.treatment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="animal_id"/>
+                <field name="date"/>
+                <field name="treatment_type"/>
+<!--                 <field name="treatment_name"/> -->
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_veterinary_treatment_form" model="ir.ui.view">
+        <field name="name">veterinary.treatment.form</field>
+        <field name="model">veterinary.treatment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="animal_id"/>
+                            <field name="date"/>
+                            <field name="treatment_type"/>
+<!--                             <field name="treatment_name"/> -->
+                        </group>
+                        <group>
+                            <field name="status"/>
+                            <field name="veterinarian"/>
+                            <field name="cost"/>
+                            <field name="next_visit_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Details">
+                            <field name="diagnosis"/>
+                            <field name="treatment_details"/>
+                            <field name="medication"/>
+                            <field name="dosage"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+   
+
+  
+   
+    <!-- Action Menus -->
+    <record id="action_animal_breeding" model="ir.actions.act_window">
+        <field name="name">عملية التلقيح</field>
+        <field name="res_model">animal.breeding</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_animal_birth" model="ir.actions.act_window">
+        <field name="name">الولادات</field>
+        <field name="res_model">animal.birth</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_livestock_farm" model="ir.actions.act_window">
+        <field name="name">المزارع</field>
+        <field name="res_model">livestock.farm</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_livestock_animal" model="ir.actions.act_window">
+        <field name="name">المواشي</field>
+        <field name="res_model">livestock.animal</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_milk_production" model="ir.actions.act_window">
+        <field name="name">انتاج الحليب</field>
+        <field name="res_model">milk.production</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_meat_production" model="ir.actions.act_window">
+        <field name="name">انتاج اللحوم</field>
+        <field name="res_model">meat.production</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_veterinary_treatment" model="ir.actions.act_window">
+        <field name="name">العلاجات البيطرية</field>
+        <field name="res_model">veterinary.treatment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+<!-- قائمة فرعية لعرض البنود -->
+    <record id="action_milk_production_line" model="ir.actions.act_window">
+    <field name="name">بنود إنتاج الحليب</field>
+    <field name="res_model">milk.production.line</field>
+    <field name="view_mode">list,form</field>
+</record>
+
+
+    <!-- Tree View -->
+    <record id="view_feeding_record_tree" model="ir.ui.view">
+        <field name="name">feeding.record.tree</field>
+        <field name="model">feeding.record</field>
+        <field name="arch" type="xml">
+            <list string="سجلات التغذية">
+                <field name="group"/>
+                <field name="feed_type"/>
+                <field name="quantity"/>
+                <field name="source"/>
+                <field name="cost"/>
+                <field name="employee_id"/>
+                <field name="company_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_feeding_record_form" model="ir.ui.view">
+        <field name="name">feeding.record.form</field>
+        <field name="model">feeding.record</field>
+        <field name="arch" type="xml">
+            <form string="سجل تغذية"> <header>
+                    <button name="action_set_draft" string="مسودة" type="object"  class="btn-secondary"/>
+                    <button name="action_confirm" string="تاكيد" type="object"  class="btn-primary"/>
+                    <button name="action_cancel" string="ملغي" type="object" class="btn-danger"/>
+                    <button name="action_create_revaluation"
+            type="object"
+            class="oe_stat_button"
+            icon="fa-calculator"
+            string="إعادة تقييم المخزون"/>
+                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancel"/>
+            </header>
+
+                <sheet>
+                  <div class="oe_button_box" name="button_box"> 
+    <button name="action_create_delivery" 
+            type="object" 
+            class="oe_stat_button" 
+            icon="fa-truck"> 
+        <field name="picking_count" widget="statinfo" string="صرف المخزن"/> 
+    </button> 
+
+    <button name="action_open_revaluations"
+            type="object"
+            class="oe_stat_button"
+            icon="fa-cubes">
+        <field name="revaluation_count" widget="statinfo" string="قيود التقييم"/>
+    </button>
+    <button name="action_open_mothers_lines"
+            type="object"
+            icon="fa-clipboard"
+            class="oe_stat_button"
+         invisible="mothers_count == 0">
+        <field name="mothers_count" widget="statinfo" string="الأمهات"/>
+    </button>
+
+</div>
+    
+
+
+                    <div class="oe_title">
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                </div>
+                    <group>
+                        <group>
+                            <field name="group" widget="many2many_tags"/>
+                            <field name="date_from"/>
+                             <field name="date_to"/>
+                            <field name="cost"/>
+                            <field name="duration_days"/>
+                            <field name="quantity_days"/>
+                            <field name="quantity_daly"/>
+                            <field name="quantity"/>
+                            <field name="actual_quantity"/>
+                        </group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="source"/>
+                            
+                            <field name="feed_type"/>
+                            <field name="picking_type_id"/>
+
+                        </group>
+                    </group>
+
+                <notebook>
+                    <page string="بنود التغذية">
+                        <field name="line_ids_feeds">
+                            <list editable="bottom">
+                                <field name="animal_id"/>
+                                <field name="feed_type"/>
+                                <field name='current_weight'/>
+                                <field name='percentage' widget='percentage'/>
+                                <field name="type_as"/>
+                                <field name="quantity"/>
+                                <field name="total_quantity"/>
+                                <field name="total_cost"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="بيانات اخري">
+                        <group>
+                            <group>
+                            <field name="company_id"/>
+                            </group>
+                            <group>
+                            <field name="account1_id"/>
+                            <field name="account2_id"/>
+                        </group></group>
+
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_feeding_record" model="ir.actions.act_window">
+        <field name="name">سجلات التغذية</field>
+        <field name="res_model">feeding.record</field>
+        <field name="view_mode">list,form</field>
+    </record>
+# الصوف 
+        <record id="view_wool_production_tree" model="ir.ui.view">
+        <field name="name">wool.production.tree</field>
+        <field name="model">wool.production</field>
+        <field name="arch" type="xml">
+            <list string="إنتاج الصوف" default_order="shearing_date desc">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="shearing_date"/>
+                <field name="raw_weight"/>
+                <field name="clean_weight"/>
+                <field name="yield_percentage"/>
+                <field name="wool_grade"/>
+                <field name="color"/>
+                <field name="processing_status"/>
+                <field name="total_revenue"/>
+                <field name="net_profit"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_wool_production_form" model="ir.ui.view">
+        <field name="name">wool.production.form</field>
+        <field name="model">wool.production</field>
+        <field name="arch" type="xml">
+            <form string="إنتاج الصوف">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="animal_id"/>
+                            <field name="shearing_date"/>
+                            <field name="shearer_name"/>
+                            <field name="shearing_method"/>
+                            <field name="storage_location"/>
+                        </group>
+                        <group>
+                            <field name="raw_weight"/>
+                            <field name="clean_weight"/>
+                            <field name="yield_percentage" readonly="1"/>
+                            <field name="fiber_length"/>
+                            <field name="wool_grade"/>
+                            <field name="color"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="moisture_content"/>
+                            <field name="lanolin_content"/>
+                            <field name="sold_weight"/>
+                            <field name="price_per_kg"/>
+                            <field name="total_revenue" readonly="1"/>
+                            <field name="processing_cost"/>
+                            <field name="net_profit" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_wool_production" model="ir.actions.act_window">
+        <field name="name">إنتاج الصوف</field>
+        <field name="res_model">wool.production</field>
+        <field name="view_mode">list,form</field>
+    </record>
+<!-- Views and Actions for Production Models -->
+
+    <!-- Production Record View -->
+    <record id="view_production_record_tree" model="ir.ui.view">
+        <field name="name">production.record.tree</field>
+        <field name="model">production.record</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="animal_id"/>
+                <field name="quantity"/>
+                <field name="unit"/>
+                <field name="date"/>
+                <field name="company_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_production_record_form" model="ir.ui.view">
+        <field name="name">production.record.form</field>
+        <field name="model">production.record</field>
+        <field name="arch" type="xml">
+            <form string="سجل الإنتاج">
+                <sheet>
+                    <group>
+                        <field name="animal_id"/>
+                        <field name="date"/>
+                        <field name="quantity"/>
+                        <field name="unit"/>
+                        <field name="company_id"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_production_record" model="ir.actions.act_window">
+        <field name="name">سجلات الإنتاج</field>
+        <field name="res_model">production.record</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Production Report View -->
+    <record id="view_production_report_tree" model="ir.ui.view">
+        <field name="name">production.report.tree</field>
+        <field name="model">production.report</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="animal_id"/>
+                <field name="date"/>
+                <field name="milk_quantity"/>
+                <field name="milk_revenue"/>
+                <field name="meat_weight"/>
+                <field name="meat_revenue"/>
+                <field name="egg_quantity"/>
+                <field name="egg_revenue"/>
+                <field name="wool_weight"/>
+                <field name="wool_revenue"/>
+                <field name="total_revenue"/>
+                <field name="production_type"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_production_report_form" model="ir.ui.view">
+    <field name="name">production.report.form</field>
+    <field name="model">production.report</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <field name="date"/>
+                    <field name="animal_id"/>
+                    <field name="milk_quantity"/>
+                    <field name="meat_weight"/>
+                    <field name="egg_quantity"/>
+                    <field name="wool_weight"/>
+                    <field name="total_revenue"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+    <record id="action_production_report" model="ir.actions.act_window">
+        <field name="name">تقرير الإنتاج</field>
+        <field name="res_model">production.report</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Production Dashboard View -->
+   <record id="view_production_dashboard_tree" model="ir.ui.view">
+    <field name="name">production.dashboard.tree</field>
+    <field name="model">production.dashboard</field>
+    <field name="arch" type="xml">
+        <list>
+            <field name="animal_id"/>
+            <field name="animal_name"/>
+            <field name="animal_type"/>
+            <field name="primary_production"/>
+            <field name="secondary_production"/>
+            <field name="current_month_milk"/>
+            <field name="current_month_eggs"/>
+            <field name="current_month_wool"/>
+            <field name="current_month_meat"/>
+            <field name="current_month_revenue"/>
+            <field name="total_revenue"/>
+            <field name="production_efficiency"/>
+            <field name="last_production_date"/>
+        </list>
+    </field>
+</record>
+
+<record id="view_production_dashboard_form" model="ir.ui.view">
+    <field name="name">production.dashboard.form</field>
+    <field name="model">production.dashboard</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <field name="animal_name"/>
+                <field name="animal_type"/>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="action_production_dashboard" model="ir.actions.act_window">
+    <field name="name">لوحة تحكم الإنتاج</field>
+    <field name="res_model">production.dashboard</field>
+    <field name="view_mode">list,form</field>
+</record>
+
+
+
+    <record id="view_typesss_tree" model="ir.ui.view">
+        <field name="name">typesss.tree</field>
+        <field name="model">typesss</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="des"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_typesss_form" model="ir.ui.view">
+        <field name="name">typesss.form</field>
+        <field name="model">typesss</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="des"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open model -->
+    <record id="action_typesss" model="ir.actions.act_window">
+        <field name="name">سلالات</field>
+        <field name="res_model">typesss</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_livestock_farm_tree" model="ir.ui.view">
+        <field name="name">livestock.farm.tree</field>
+        <field name="model">livestock.farm</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="location"/>
+                <field name="capacity"/>
+                <field name="manager_id"/>
+                <field name="company_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_livestock_farm_form" model="ir.ui.view">
+        <field name="name">livestock.farm.form</field>
+        <field name="model">livestock.farm</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="location"/>
+                        <field name="capacity"/>
+                         <field name="locaon_id"/>
+                         <field name="warehse_id"/>
+                        <field name="manager_id"/>
+                        <field name="company_id"/>
+                        <field name="active"/>
+                    </group>
+                         <notebook>
+                        <page string="أصناف المنتجات">
+                            <field name="category_line_ids" >
+                                <list editable="bottom">
+                                    <field name="category_id"/>
+                                    <field name="qty_available" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_livestock_farm" model="ir.actions.act_window">
+        <field name="name">المزارع/الحظائر</field>
+        <field name="res_model">livestock.farm</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_animal_pedigree_tree" model="ir.ui.view">
+    <field name="name">animal.pedigree.tree</field>
+    <field name="model">animal.pedigree</field>
+    <field name="arch" type="xml">
+        <list>
+            <field name="animal_id"/>
+            <field name="father_id"/>
+            <field name="mother_id"/>
+            <field name="generation"/>
+            <field name="inbreeding_coefficient"/>
+        </list>
+    </field>
+</record>
+
+<!-- Form view -->
+<record id="view_animal_pedigree_form" model="ir.ui.view">
+    <field name="name">animal.pedigree.form</field>
+    <field name="model">animal.pedigree</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <field name="animal_id"/>
+                    <field name="generation"/>
+                    <field name="inbreeding_coefficient"/>
+                </group>
+                <group string="الأجداد">
+                    <field name="father_id"/>
+                    <field name="mother_id"/>
+                    <field name="paternal_grandfather_id"/>
+                    <field name="paternal_grandmother_id"/>
+                    <field name="maternal_grandfather_id"/>
+                    <field name="maternal_grandmother_id"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="view_livestock_food_data_list" model="ir.ui.view">
+        <field name="name">livestock.food.data.list</field>
+        <field name="model">livestock.food.data</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="company_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_livestock_food_data_form" model="ir.ui.view">
+        <field name="name">livestock.food.data.form</field>
+        <field name="model">livestock.food.data</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <button name="action_open_lines_popup"
+                                type="object"
+                                string="فتح البنود"
+                                class="btn-primary"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="product" widget='many2many_tags'/>
+                        </group>
+                        <group>
+                            <field name="farm"/>
+                            <field name="exchange"/>
+                         </group>
+                        </group>
+                    <notebook>
+                        <page string="الكميات">
+                            <field name='line_ids' readonly="1">
+                              <list>
+                                    <field name="products"/>
+                                    <field name="date"/>
+                                    <field name="weight"/>
+                                    <field name="quantity"/>
+                                    <field name="editing"/>
+                                    <field name="des"/>
+                              </list>
+                          </field>
+                        </page>
+                        <page string="بيانات اخرى">
+                             <field name="company_id" string='الشركة'/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_livestock_food_data" model="ir.actions.act_window">
+        <field name="name">بيانات التغذية</field>
+        <field name="res_model">livestock.food.data</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_livestock_scale_list" model="ir.ui.view">
+        <field name="name">livestock.scale.list</field>
+        <field name="model">livestock.scales</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="last_weight"/>
+                <field name="trans_pers"/>
+                <field name="company_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_livestock_food_data_line_tree_popup" model="ir.ui.view">
+        <field name="name">livestock.food.data.line.tree.popup</field>
+        <field name="model">livestock.food.data.line</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="products"/>
+                <field name="date"/>
+                <field name="weight"/>
+                <field name="quantity"/>
+                <field name="editing"/>
+                <field name="des"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_livestock_scale_form" model="ir.ui.view">
+        <field name="name">livestock.scale.form</field>
+        <field name="model">livestock.scales</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="animal_id"/>
+                            <field name="trans_pers"/>
+                        </group>
+                        <group>
+                            <field name="last_weight"/>
+                            <field name="status"/>
+                         </group>
+                        </group>
+                    <notebook>
+                        <page string="الموازين">
+                            <field name='line_ids'>
+                              <list editable="bottom">
+                                    <field name="date"/>
+                                    <field name="weight"/>
+                                    <field name="we_emp"/>
+                                    <field name="date_diff"/>
+                                    <field name="prog_pers" widget="percentage"/>
+                              </list>
+                          </field>
+                        </page>
+                        <page string="بيانات اخرى">
+                             <field name="company_id" string='الشركة'/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_livestock_scales" model="ir.actions.act_window">
+        <field name="name">الموازين</field>
+        <field name="res_model">livestock.scales</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+<!-- Action -->
+<record id="action_animal_pedigree" model="ir.actions.act_window">
+    <field name="name">نسب الحيوانات</field>
+    <field name="res_model">animal.pedigree</field>
+    <field name="view_mode">list,form</field>
+</record>
+    <!-- قائمة عرض البنود (Tree View) للسجل الرئيسي -->
+    <record id="view_daily_feeding_tree" model="ir.ui.view">
+        <field name="name">daily.feeding.tree</field>
+        <field name="model">daily.feeding</field>
+        <field name="arch" type="xml">
+            <list string="التغذية اليومية" default_order="feeding_date desc">
+                <field name="feeding_date"/>
+                <field name="farm_ids" widget="many2many_tags"/>
+                <field name="line_ids" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- نموذج عرض السجل الرئيسي (Form View) -->
+    <record id="view_daily_feeding_form" model="ir.ui.view">
+        <field name="name">daily.feeding.form</field>
+        <field name="model">daily.feeding</field>
+        <field name="arch" type="xml">
+            <form string="التغذية اليومية">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="farm_ids" widget="many2many_tags" 
+                                   options="{'no_create': True}"/>  
+                        </group>
+                        <group>
+                            <field name="feeding_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="بنود التغذية">
+                            <field name="line_ids">
+                                <list string="بنود التغذية" editable="bottom">
+                                    <field name="animal_id" options="{'no_create': True}"/>
+                                    <field name="farm_id" readonly="1"/>
+                                    <field name="product_id" options="{'no_create': True}"/>
+                                    <field name="required_quantity"/>
+                                    <field name="last_weight"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!-- الإجراء (Action) -->
+    <record id="action_daily_feeding" model="ir.actions.act_window">
+        <field name="name">التغذية اليومية</field>
+        <field name="res_model">daily.feeding</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                أنشئ أول سجل تغذية يومية
+            </p>
+            <p>
+                يمكنك تسجيل التغذية اليومية للحيوانات في الحظائر المختلفة.
+            </p>
+        </field>
+    </record>
+
+      <!-- Menu Items -->
+<menuitem id="menu_livestock_root" name="الثروة الحيوانية" sequence="10"
+          web_icon="Livestock,static/description/icon.png"/>
+
+<menuitem id="process_daely" name="العمليات اليومية" parent="menu_livestock_root" sequence="10"/>
+<menuitem id="eating_id" name="التغذية" parent="process_daely" action="action_feeding_record" sequence="10"/>
+<menuitem id="menu_daily_feeding" name="التغذية اليومية" parent="process_daely" action="action_daily_feeding" sequence="20"/>
+
+<!-- القائمة الرئيسية للإنتاج -->
+<menuitem id="menu_livestock_production" name="الإنتاج" parent="menu_livestock_root" sequence="20"/>
+
+<menuitem id="menu_livestock_milk" name="إنتاج الحليب" parent="menu_livestock_production" action="action_milk_production" sequence="10"/>
+<menuitem id="menu_livestock_meat" name="إنتاج الصوف" parent="menu_livestock_production" action="action_wool_production" sequence="20"/> 
+
+<!-- جروب التكاثر -->
+<menuitem id="menu_livestock_breeding_group" name="التكاثر" parent="menu_livestock_production" sequence="30"/>
+<menuitem id="menu_livestock_breeding" name="عملية التلقيح" parent="menu_livestock_breeding_group" action="action_animal_breeding" sequence="10"/>
+<menuitem id="menu_livestock_birth" name="الولادات" parent="menu_livestock_breeding_group" action="action_animal_birth" sequence="20"/> 
+
+<menuitem id="menu_livestock_health" name="الصحة" parent="menu_livestock_root" sequence="40"/>
+<menuitem id="menu_livestock_treatment" name="العلاجات البيطرية" parent="menu_livestock_health" action="action_veterinary_treatment" sequence="10"/>
+
+<menuitem id="menu_production_root" name="التقارير" parent="menu_livestock_root" sequence="50"/>
+<menuitem id="menu_production_record" name="سجلات الإنتاج" parent="menu_production_root" action="action_production_record" sequence="10"/>
+<menuitem id="menu_production_report" name="تقرير الإنتاج" parent="menu_production_root" action="action_production_report" sequence="20"/>
+<menuitem id="menu_production_dashboard" name="لوحة تحكم الإنتاج" parent="menu_production_root" action="action_production_dashboard" sequence="30"/>    
+    
+<menuitem id="menu_livestock_setting" name="الاعدادات" parent="menu_livestock_root" sequence="60"/>
+<menuitem id="menu_livestock_animal" name="بيانات الحيوانات" parent="menu_livestock_setting" action="action_livestock_animal" sequence="10"/>
+<menuitem id="menu_typesss" name="سلالات" parent="menu_livestock_setting" action="action_typesss" sequence="20"/>
+ <menuitem id="menu_livestock_farm" name="المزارع/الحظائر" parent="menu_livestock_setting" action="action_livestock_farm" sequence="30"/>
+<menuitem id="menu_animal_pedigree_action" name="نسب الحيوانات" parent="menu_livestock_setting" action="action_animal_pedigree" sequence="40"/>
+<menuitem id="menu_animal_food_data_action" name="بيانات التغذية" parent="menu_livestock_setting" action="action_livestock_food_data" sequence="50"/>
+<menuitem id="menu_animal_scales_action" name=" الموازين" parent="menu_livestock_setting" action="action_livestock_scales" sequence="60"/>
+</odoo>

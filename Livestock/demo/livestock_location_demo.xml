@@ -1,0 +1,3 @@
+<record id="location_farm_1" model="livestock.location">
+    <field name="name">Main Farm</field>
+</record>

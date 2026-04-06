@@ -1,0 +1,3 @@
+<record id="status_alive" model="livestock.status">
+    <field name="name">Alive</field>
+</record>

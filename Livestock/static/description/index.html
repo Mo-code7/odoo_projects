@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>إدارة المواشي - Livestock Management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            direction: rtl;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px;
+        }
+        .feature {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-left: 4px solid #4CAF50;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .feature h3 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
+        .feature ul {
+            margin: 10px 0;
+            padding-right: 20px;
+        }
+        .feature li {
+            margin-bottom: 5px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-card h3 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .stat-card p {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+        }
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+        }
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="icon">🐄</div>
+            <h1>إدارة المواشي</h1>
+            <p>Livestock Management System</p>
+        </div>
+        
+        <div class="content">
+            <div class="feature">
+                <h3>🐾 إدارة الحيوانات</h3>
+                <p>نظام متكامل لإدارة الحيوانات والماشية مع تتبع شامل لجميع البيانات المهمة.</p>
+                <ul>
+                    <li>تسجيل الحيوانات الجديدة مع بيانات شاملة</li>
+                    <li>تتبع حالة الحيوان (حي، مريض، نافق، مباع)</li>
+                    <li>إدارة الصور والملاحظات لكل حيوان</li>
+                    <li>حساب العمر تلقائياً من تاريخ الميلاد</li>
+                    <li>تصنيف الحيوانات حسب النوع والسلالة</li>
+                </ul>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>🐄</h3>
+                    <p>إدارة الحيوانات</p>
+                </div>
+                <div class="stat-card">
+                    <h3>📊</h3>
+                    <p>تقارير شاملة</p>
+                </div>
+                <div class="stat-card">
+                    <h3>🔍</h3>
+                    <p>بحث متقدم</p>
+                </div>
+                <div class="stat-card">
+                    <h3>📱</h3>
+                    <p>واجهة حديثة</p>
+                </div>
+            </div>
+            
+            <div class="feature">
+                <h3>✨ المميزات الرئيسية</h3>
+                <ul>
+                    <li><strong>واجهة عربية كاملة:</strong> جميع العناصر باللغة العربية مع دعم RTL</li>
+                    <li><strong>تصميم حديث:</strong> واجهة مستخدم أنيقة ومتجاوبة</li>
+                    <li><strong>إدارة الحالة:</strong> تتبع حالة الحيوان بسهولة</li>
+                    <li><strong>بحث متقدم:</strong> فلاتر شاملة للبحث والتصفية</li>
+                    <li><strong>عرض متعدد:</strong> قائمة، نموذج، و kanban</li>
+                    <li><strong>أمان كامل:</strong> صلاحيات محددة للمستخدمين</li>
+                </ul>
+            </div>
+            
+            <div class="feature">
+                <h3>🚀 الاستخدام</h3>
+                <ol>
+                    <li>قم بتثبيت الموديول في Odoo</li>
+                    <li>اذهب إلى "إدارة المواشي" في القائمة الرئيسية</li>
+                    <li>اختر "الحيوانات" لبدء إدارة حيواناتك</li>
+                    <li>أضف حيوانات جديدة أو عدّل البيانات الموجودة</li>
+                    <li>استخدم الفلاتر للبحث والتصفية</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>تم تطوير هذا الموديول خصيصاً لـ Odoo 18</p>
+            <p>Livestock Management Module v1.0</p>
+        </div>
+    </div>
+</body>
+</html> 

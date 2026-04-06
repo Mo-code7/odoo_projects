@@ -1,0 +1,10 @@
+<record id="animal_1" model="livestock.animal">
+    <field name="name">Cow-001</field>
+    <field name="species_id" ref="species_cow"/>
+    <field name="breed_id" ref="breed_holstein"/>
+    <field name="location_id" ref="location_farm_1"/>
+    <field name="status_id" ref="status_alive"/>
+    <field name="gender">female</field>
+    <field name="birth_date">2023-01-10</field>
+    <field name="weight">450</field>
+</record>

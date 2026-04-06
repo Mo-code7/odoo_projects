@@ -1,0 +1,4 @@
+<record id="breed_holstein" model="livestock.breed">
+    <field name="name">Holstein</field>
+    <field name="species_id" ref="species_cow"/>
+</record>

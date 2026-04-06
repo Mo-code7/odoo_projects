@@ -1,0 +1,3 @@
+<record id="species_cow" model="livestock.species">
+    <field name="name">Cow</field>
+</record>
