@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_item_exchange,item_exchange,model_item_exchange,,1,1,1,1
+access_item_exchange_lines,item_exchange_lines,model_item_exchange_lines,,1,1,1,1
