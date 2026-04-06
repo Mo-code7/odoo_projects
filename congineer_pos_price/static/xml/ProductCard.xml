@@ -1,0 +1,62 @@
+<templates id="template" xml:space="preserve">
+  <t t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension">
+    <xpath expr="//div[contains(@class, 'product-list')]" position="replace">
+      <table class="pos-product-table"
+       t-foreach="pos.productToDisplayByCateg"
+       t-as="productCateg"
+       t-key="productCateg[0]">
+        <thead>
+          <tr>
+            <th style="width:60px;">Image</th>
+            <th style="width:160px;">Barcode</th>
+            <th>Product</th>
+            <th style="width:100px;">Stock</th>
+            <th style="width:100px;">Weight</th>
+            <th style="width:100px;">Volume</th>
+            <th style="width:120px;">Cost</th>
+            <th style="width:120px;">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr t-foreach="productCateg[1]"
+    t-as="product"
+    t-key="product.id"
+    t-on-click.stop="() => this.addProductToOrder(product)"
+    t-att-data-product-id="product.id">
+            <td>
+              <img t-if="this.getTableProductImage(product)"
+     class="product-table-img"
+     t-att-src="this.getTableProductImage(product)"
+     t-att-alt="product.name"
+     draggable="false"/>
+            </td>
+            <td>
+              <t t-if="product.default_code" t-esc="product.default_code"/>
+              <span t-else="">-</span>
+            </td>
+            <td>
+              <t t-esc="product.display_name"/>
+            </td>
+            <td>
+              <t t-if="product.qty_available" t-esc="product.qty_available"/>
+              <span t-else="">-</span>
+            </td>
+            <td>
+              <t t-esc="product.weight or 0"/>
+            </td>
+            <td>
+              <t t-esc="product.volume or 0"/>
+            </td>
+            <td>
+              <t t-esc="this.getProductCost(product)"/>
+            </td>
+            <td>
+              <t t-esc="this.getProductPrice(product)"/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </xpath>
+  </t>
+</templates>
+

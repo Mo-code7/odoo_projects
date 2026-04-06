@@ -1,0 +1,117 @@
+/* POS Product Table Styles */
+
+.pos-product-table-container { 
+    overflow-y: auto;
+    flex: 1;
+}
+
+.pos-product-table {
+    width: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.9rem;
+}
+
+.pos-product-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.pos-product-table thead th {
+    background: #723C85;
+    color: #fff;
+    padding: 10px 12px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #1a252f;
+    white-space: nowrap;
+}
+
+.pos-product-table thead th:first-child {
+    border-radius: 6px 0 0 0;
+}
+
+.pos-product-table thead th:last-child {
+    border-radius: 0 6px 0 0;
+}
+
+.pos-product-table tbody tr {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.pos-product-table tbody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.pos-product-table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.08);
+}
+
+.pos-product-table tbody tr:active {
+    background-color: rgba(0, 123, 255, 0.15);
+}
+
+.pos-product-table tbody td {
+    padding: 6px 12px;
+    vertical-align: middle;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.pos-product-table .product-table-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 4px;
+    background: #f8f9fa;
+}
+
+.pos-product-table .product-table-name {
+    font-weight: 800;
+    color: #2c3e50;
+}
+
+.pos-product-table .product-table-barcode {
+    color: #6c757d;
+    font-family: monospace;
+    font-size: 0.85rem;
+}
+
+.pos-product-table .product-table-price {
+    font-weight: 600;
+    color: #007bff;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.pos-product-table .product-table-qty-badge {
+    display: inline-block;
+    background: #212529;
+    color: #fff;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: 6px;
+}
+
+.pos-product-table .product-table-img-placeholder {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e9ecef;
+    border-radius: 4px;
+    color: #adb5bd;
+    font-size: 1.1rem;
+}
+
+
+
+
+
+
