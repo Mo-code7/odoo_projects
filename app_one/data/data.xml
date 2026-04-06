@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id='property_01' model='property'>
+            <field name="name">property 10</field>
+            <field name="postcode">101010</field>
+            <field name="date_available">2026-2-7</field>
+            <field name="bedrooms">5</field>
+            <field name="description">description of property 10</field>
+        </record>
+    </data>
+</odoo>

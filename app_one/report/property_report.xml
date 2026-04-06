@@ -1,0 +1,253 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<odoo>
+    <record id="property_report" model="ir.actions.report">
+        <field name="name">Report</field>
+        <field name="model">property</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_model_id" ref="model_property"/>
+        <field name="binding_type">report</field>
+        <field name="report_name">app_one.property_report_template</field>
+    </record>
+
+     <template id="property_report_template">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <t t-foreach="docs" t-as="o">
+                     <div class="oe_structure"/>
+                                <table style="width:100%; border-collapse:collapse;">
+                    <tr>
+                        <!-- Left empty (was logo + QR) -->
+                        <td style="width:30%; text-align:center; vertical-align:top;">
+                            <!-- EMPTY -->
+                        </td>
+
+                        <!-- Center title -->
+                        <td style="width:40%; text-align:center;">
+                            <strong style="font-size:20px;">فاتورة مبيعات ضريبية</strong>
+                        </td>
+
+                        <!-- Right empty -->
+                        <td style="width:30%;"/>
+                    </tr>
+                </table>
+                  <table style="width:100%; border-collapse:collapse; direction:rtl; text-align:center; font-size:13px;">
+
+                    <!-- ================= الصف الأول ================= -->
+                    <tr style="border-bottom:1px solid #ccc;">
+
+                        <td style="width:20%; padding:6px;">اسم العميل</td>
+                        <td style="width:20%; padding:6px;"/>
+
+                        <td style="width:20%; padding:6px;">الرقم المرجعي</td>
+                        <td style="width:20%; padding:6px;"/>
+
+                        <td style="padding:6px;">رقم الفاتورة</td>
+                        <td style="width:20%; padding:6px;"/>
+
+                        <td style="width:20%; padding:6px;">عنوان العميل</td>
+                        <td style="width:20%; padding:6px;"/>
+
+                    </tr>
+
+                    <!-- ================= الصف الثاني ================= -->
+                    <tr style="border-bottom:1px solid #ccc;">
+
+                        <td style="padding:6px;">كود العميل</td>
+                        <td style="padding:6px;"/>
+
+                        <td style="padding:6px;">المندوب</td>
+                        <td style="padding:6px;"/>
+
+                        <td style="padding:6px;">التاريخ</td>
+                        <td style="padding:6px;"/>
+
+                        <td style="padding:6px;">رقم السجل التجارى</td>
+                        <td style="padding:6px;"/>
+                    </tr>
+
+                    <!-- ================= الصف الثالث ================= -->
+                    <tr style="border-bottom:1px solid #ccc; padding:18px">
+
+                        <td style="padding:6px;">الرقم الضريبي</td>
+                        <td style="padding:6px;"/>
+
+                        <td style="padding:6px;">كود المندوب</td>
+                        <td style="padding:6px;"/>
+
+                        <td style="padding:6px;">طريقة السداد</td>
+                        <td style="padding:6px;"/>
+
+                        <td style="padding:6px;">شروط الدفع</td>
+                        <td style="padding:6px;"/>
+
+<!--                        <td style="padding:6px;">رقم عرض السعر</td>-->
+<!--                        <td style="padding:6px;"></td>-->
+                    </tr>
+
+                </table>
+<table class="table table-sm o_main_table table-borderless mt-4" style="margin-top: 180px;">
+    <thead>
+        <tr>
+            <th>كود الصنف</th>
+            <th>اسم الصنف</th>
+            <th>الوحدة</th>
+            <th>الكمية</th>
+            <th>السعر قبل الخصم</th>
+            <th t-if="display_discount">خصم %</th>
+            <th>الإجمالي</th>
+            <th>الضريبة</th>
+            <th>LOT Number</th>
+            <th>S Number</th>
+            <th>Manufacture</th>
+            <th>الإجمالي بعد الضريبة</th>
+        </tr>
+    </thead>
+    <tbody class="sale_tbody">
+        <t t-foreach="lines_to_report" t-as="line">
+            <tr>
+                <td><span t-field="line.product_id.default_code"/></td>
+                <!--<td><span t-field="line.product_id.default_code"/></td>-->
+                <td><span t-field="line.product_id.name"/></td>
+                <!--<td><span t-field="line.product_uom_id"/></td>-->
+                <td class="text-end"><span t-field="line.product_uom_qty"/></td>
+                <td class="text-end"><span t-field="line.price_unit"/></td>
+                <td class="text-end" t-if="display_discount"><span t-field="line.discount"/></td>
+                <td class="text-end"><span t-field="line.price_subtotal"/></td>
+                 <td class="text-end"><span t-field="line.tax_id"/></td>
+                  <td class="text-end"><span t-field="line.discount"/></td>
+                   <td class="text-end"><span t-field="line.discount"/></td>
+                    <td class="text-end"><span t-field="line.discount"/></td>
+                <!--<td class="text-end">-->
+                <!--    <t t-set="taxes" t-value="', '.join([tax.name for tax in line.tax_id])"/>-->
+                <!--    <span t-out="taxes"/>-->
+                <!--</td>-->
+                <!--<td><span t-field="line.x_lot_number"/></td>-->
+                <!--<td><span t-field="line.x_serial_number"/></td>-->
+                <!--<td><span t-field="line.x_manufacture"/></td>-->
+                <td class="text-end"><t t-esc="line.price_total"/></td>
+                <td class="text-end"><t t-esc="line.price_total"/></td>
+            </tr>
+        </t>
+    </tbody>
+</table>
+                <table style="width:100%; margin-top:25px;">
+                    <tr>
+                        <td style="text-align:center;">اسم المسلم ___</td>
+                        <td style="text-align:center;">اسم المستلم ___</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">التوقيع ___</td>
+                        <td style="text-align:center;">التوقيع ___</td>
+                    </tr>
+                </table>
+
+                <br/><br/>
+
+                <div class="clearfix" name="so_total_summary">
+                    <div id="total" class="row" name="total">
+                        <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+                            <table class="table table-sm table-borderless">
+                                <t t-set="tax_totals" t-value="doc.tax_totals"/><t t-set="currency" t-value="doc.currency_id"/>
+                                <t t-call="sale.document_tax_totals"/>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+                <div t-if="not doc.signature" class="oe_structure"/>
+                <div t-else="" class="mt-4 ml64 mr4" name="signature">
+                    <div class="offset-8">
+                        <strong>التوقيع</strong>
+                    </div>
+                    <div class="offset-8">
+                        <img t-att-src="image_data_uri(doc.signature)" style="max-height: 4cm; max-width: 8cm;"/>
+                    </div>
+                    <div class="offset-8 text-center">
+                        <span t-field="doc.signed_by">أوسكار مورغان</span>
+                    </div>
+                </div>
+                <div t-if="not (doc.sale_order_option_ids and doc.state in ['draft', 'sent'])" class="oe_structure">​</div>
+                <div t-else="">
+                    <t t-set="has_option_discount" t-value="any(option.discount != 0.0 for option in doc.sale_order_option_ids)"/>
+                    <h4 name="h_optional_products">
+                        <span>الخيارات</span>
+                    </h4>
+                    <table name="table_optional_products" class="table table-sm">
+                        <thead class="fw-bold">
+                            <tr>
+                                <td name="th_option_name" class="text-start">الوصف</td>
+                                <td t-if="has_option_discount" name="th_option_discount" groups="product.group_discount_per_so_line" class="text-start">خصم %</td>
+                                <td name="th_option_price_unit" class="text-end">سعر الوحدة</td>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <tr t-foreach="doc.sale_order_option_ids" t-as="option">
+                                <td name="td_option_name">
+                                    <span t-field="option.name">رقائق إضافية</span>
+                                </td>
+                                <td t-if="has_option_discount" name="td_option_discount" groups="product.group_discount_per_so_line">
+                                    <strong t-if="option.discount != 0.0" class="text-info">
+                                        <t t-out="((option.discount % 1) and '%s' or '%d') % option.discount">-</t>%
+
+
+                                    </strong>
+                                </td>
+                                <td name="td_option_price_unit">
+                                    <strong class="text-end">
+                                        <div t-field="option.price_unit" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}" t-att-style="option.discount and 'text-decoration: line-through' or None" t-att-class="option.discount and 'text-danger' or None">1.5</div>
+                                        <div t-if="option.discount">
+                                            <t t-out="((1-option.discount / 100.0) * option.price_unit)" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+                                        </div>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm o_main_table table-borderless mt-4">
+    <thead>
+        <tr>
+            <th>كود الصنف</th>
+            <th>اسم الصنف</th>
+            <th>الوحدة</th>
+            <th>الكمية</th>
+            <th>السعر قبل الخصم</th>
+            <th>الإجمالي</th>
+            <th>الضريبة</th>
+            <th>Expire</th>
+            <th>LOT Number</th>
+            <th>S Number</th>
+            <th>Manufacture</th>
+            <th>الإجمالي بعد الضريبة</th>
+        </tr>
+    </thead>
+    <tbody>
+        <t t-foreach="lines_to_report" t-as="line">
+            <tr>
+                <td><span t-field="line.product_id.default_code"/></td>
+                <td><span t-field="line.product_id.name"/></td>
+                <td><span t-field="line.product_uom_id"/></td>
+                <td class="text-end"><span t-field="line.product_uom_qty"/></td>
+                <td class="text-end"><span t-field="line.price_unit"/></td>
+                <td class="text-end"><span t-field="line.price_subtotal"/></td>
+                <td class="text-end">
+                    <t t-set="taxes" t-value="', '.join([tax.name for tax in line.tax_id])"/>
+                    <span t-out="taxes"/>
+                </td>
+                <td><span t-field="line.x_expire_date"/></td> <!-- تأكد أن عندك حقل expire -->
+                <td><span t-field="line.x_lot_number"/></td> <!-- تأكد أن عندك حقل LOT Number -->
+                <td><span t-field="line.x_serial_number"/></td> <!-- تأكد أن عندك حقل S Number -->
+                <td><span t-field="line.x_manufacture"/></td> <!-- تأكد أن عندك حقل Manufacture -->
+                <td class="text-end">
+                    <t t-esc="line.price_total"/> <!-- الإجمالي بعد الضريبة -->
+                </td>
+            </tr>
+        </t>
+    </tbody>
+</table>
+                    <div class="oe_structure">​</div>
+                </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+</odoo>

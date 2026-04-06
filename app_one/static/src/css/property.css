@@ -1,0 +1,10 @@
+.app_custom table thead > tr > th {
+background-color: #0078D4 !important;
+color: black !important;
+text-align: center !important;
+}
+.app_custom table thead > tr > th:nth-child(2) {
+width: 200px !important;
+
+}
+

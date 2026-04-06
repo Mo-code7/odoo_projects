@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_property_user,property.user,model_property,,1,1,1,1
+access_owner_user,owner.user,model_owner,,1,1,1,1
+access_tag_user,tag.user,model_tag,,1,1,1,1
+access_property_line_user,property_line.user,model_property_line,,1,1,1,1
+access_building_user,building.user,model_building,,1,1,1,1
+access_change_state,change_state.user,model_change_state,,1,1,1,1

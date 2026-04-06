@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <templates xml:space="preserve">
+        <t t-name="app_one.FormView">
+            <div class='p-3'>
+                <div class='o_field_widget mb-3'>
+                    <label class='o_form_label'>Name</label>
+                    <input class='o_input form-control' t-model='state.name' placeholder='Enter The Property Name'/>
+                </div>
+
+                <div class='o_field_widget mb-3'>
+                    <label class='o_form_label'>Postcode</label>
+                    <input class='o_input form-control' t-model='state.postcode' placeholder='Enter The Postcode of The Property'/>
+                </div>
+
+                <div class='o_field_widget mb-3'>
+                    <label class='o_form_label'>Date Availablity</label>
+                    <input class='o_input form-control' t-model='state.date_available' type='date' placeholder='Enter The Date Available'/>
+                </div>
+                <div class='footer'>
+                <button class='btn btn-primary me-2' t-on-click='this.createRecord'>Create</button>
+                <button class='btn btn-secondary' t-on-click='this.cancel'>Cancel</button>
+                </div>
+            </div>
+        </t>
+    </templates>

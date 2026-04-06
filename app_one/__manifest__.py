@@ -1,0 +1,37 @@
+{
+    'name': 'app_one',
+    'author': 'Moaz',
+    'version': '1.0',
+    'depends': ['base', 'sale_management', 'account', 'mail', 'contacts'],
+    'data': [
+        'security/security.xml',
+        'security/ir.model.access.csv',
+        'data/sequence.xml',
+        'data/data.xml',
+        'views/base_menu.xml',
+        'views/property_view.xml',
+        'views/owner_view.xml',
+        'views/tag_view.xml',
+        'views/sale_order_view.xml',
+        'views/building_view.xml',
+        'views/account_move_view.xml',
+        'wizard/change_state_wizard_view.xml',
+        'report/property_report.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'app_one/static/src/components/listView/listView.js',
+            'app_one/static/src/components/listView/listView.xml',
+            'app_one/static/src/components/listView/listView.css',
+            # 'app_one/static/src/components/formView/formView.css',
+            'app_one/static/src/components/formView/formView.js',
+            'app_one/static/src/components/formView/formView.xml',
+            'app_one/static/src/css/property.css',
+        ],
+        'web.report_assets_common': [
+            'app_one/static/src/fonts/Liter-Regular.ttf',
+            'app_one/static/src/css/font.css',
+        ],
+    },
+    'application': True,
+}

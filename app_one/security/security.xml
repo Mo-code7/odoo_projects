@@ -1,0 +1,24 @@
+<odoo>
+    <record id="property_real_state" model="ir.module.category">
+        <field name="name">Real State</field>
+    </record>
+    <record id="property_manager_group" model="res.groups">
+        <field name="name">Property Group</field>
+        <field name="category_id" ref="app_one.property_real_state"/>
+    </record>
+
+    <record id="property_user_group" model="res.groups">
+        <field name="name">Property User</field>
+        <field name="category_id" ref="app_one.property_real_state"/>
+    </record>
+
+<!--    <record id="property_rule" model="ir.rule">-->
+<!--        <field name="name">Property.by.user</field>-->
+<!--        <field name="model_id" ref="app_one.model_property"/>-->
+<!--        <field name="domain_force">[('create_uid','=',user.id)]</field>-->
+<!--        <field name="prem_read" eval="True"/>-->
+<!--        <field name="prem_write" eval="True"/>-->
+<!--        <field name="prem_create" eval="True"/>-->
+<!--        <field name="prem_unlink" eval="True"/>-->
+<!--    </record>-->
+</odoo>
