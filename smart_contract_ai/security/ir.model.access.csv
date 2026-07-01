@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_smart_contract_user,smart.contract.user,model_smart_contract,group_contract_user,1,1,1,0
+access_smart_contract_manager,smart.contract.manager,model_smart_contract,group_contract_manager,1,1,1,1
+access_smart_contract_portal,smart.contract.portal,model_smart_contract,base.group_portal,1,0,0,0
+
+access_smart_contract_line_user,smart.contract.line.user,model_smart_contract_line,group_contract_user,1,1,1,1
+access_smart_contract_line_manager,smart.contract.line.manager,model_smart_contract_line,group_contract_manager,1,1,1,1
+access_smart_contract_line_portal,smart.contract.line.portal,model_smart_contract_line,base.group_portal,1,0,0,0

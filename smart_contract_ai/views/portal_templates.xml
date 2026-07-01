@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add entry to the Portal Home page list -->
+    <template id="portal_my_home_menu_contract" name="Portal layout : Contracts menu entries" inherit_id="portal.portal_my_home" priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Contracts &amp; Subscription Agreements</t>
+                <t t-set="url" t-value="'/my/contracts'"/>
+                <t t-set="placeholder">contract</t>
+                <t t-set="count" t-value="contract_count"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Portal Breadcrumbs -->
+    <template id="portal_my_home_breadcrumbs" name="Portal layout : breadcrumbs" inherit_id="portal.portal_breadcrumbs" priority="20">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'contract' or contract" t-attf-class="breadcrumb-item #{'active ' if not contract else ''}">
+                <a t-if="contract" href="/my/contracts">Contracts</a>
+                <t t-else="">Contracts</t>
+            </li>
+            <li t-if="contract" class="breadcrumb-item active">
+                <span t-field="contract.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- Contracts List View in Portal -->
+    <template id="portal_my_contracts" name="My Contracts">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Contracts &amp; Agreements</t>
+            </t>
+            <div t-if="not contracts" class="alert alert-warning mt-3" role="alert">
+                There are currently no active contracts linked to your account.
+            </div>
+            <div t-if="contracts" class="card shadow-sm border-0 rounded-3 mt-3">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 bg-white">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="border-0 px-4">Contract Ref</th>
+                                <th class="border-0">Start Date</th>
+                                <th class="border-0">End Date</th>
+                                <th class="border-0 text-end">Total Amount</th>
+                                <th class="border-0 text-center">Status</th>
+                                <th class="border-0 text-center px-4">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="contracts" t-as="c">
+                                <tr>
+                                    <td class="px-4">
+                                        <a t-attf-href="/my/contract/{{ c.id }}" class="fw-bold text-decoration-none">
+                                            <span t-field="c.name"/>
+                                        </a>
+                                    </td>
+                                    <td><span t-field="c.start_date" t-options='{"widget": "date"}'/></td>
+                                    <td><span t-field="c.end_date" t-options='{"widget": "date"}'/></td>
+                                    <td class="text-end fw-semibold">
+                                        <span t-field="c.total_amount" t-options='{"widget": "monetary", "display_currency": c.currency_id}'/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-if="c.state == 'draft'" class="badge rounded-pill bg-info text-dark">Draft</span>
+                                        <span t-if="c.state == 'open'" class="badge rounded-pill bg-success">Active</span>
+                                        <span t-if="c.state == 'pending_renewal'" class="badge rounded-pill bg-warning text-dark">Pending Renewal</span>
+                                        <span t-if="c.state == 'closed'" class="badge rounded-pill bg-secondary">Closed</span>
+                                        <span t-if="c.state == 'cancelled'" class="badge rounded-pill bg-danger">Cancelled</span>
+                                    </td>
+                                    <td class="text-center px-4">
+                                        <a t-attf-href="/my/contract/{{ c.id }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                            <i class="fa fa-eye"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Pager -->
+            <div class="d-flex justify-content-center mt-3">
+                <t t-call="portal.pager"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- Contract Details & Signing Page -->
+    <template id="portal_contract_page" name="Contract Portal Detail Page">
+        <t t-call="portal.portal_layout">
+            <t t-set="wrapwrap_classes" t-value="'bg-light'"/>
+            
+            <!-- Toast notification messages -->
+            <div t-if="request.params.get('success') == 'signed'" class="alert alert-success alert-dismissible fade show shadow-sm mt-3" role="alert">
+                <strong>Congratulations!</strong> The contract has been signed successfully and recorded.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div t-if="request.params.get('error') == 'missing_signature'" class="alert alert-danger alert-dismissible fade show shadow-sm mt-3" role="alert">
+                <strong>Error!</strong> Signer name is mandatory to execute online signature.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="row mt-4">
+                <!-- Main Contract Sheet -->
+                <div class="col-lg-9 col-md-12 mb-4">
+                    <div class="card shadow-sm border-0 rounded-4 p-4 bg-white">
+                        <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+                            <div>
+                                <h3 class="fw-bold mb-1" style="color: #2C3E50;">
+                                    Smart Agreement: <span t-field="contract.name"/>
+                                </h3>
+                                <p class="text-muted mb-0">Managed securely via AI-Powered Odoo Contract Hub</p>
+                            </div>
+                            <span class="fs-5 px-3 py-1 rounded-pill" 
+                                  t-attf-class="badge #{'bg-info text-dark' if contract.state == 'draft' else 'bg-success' if contract.state == 'open' else 'bg-warning text-dark' if contract.state == 'pending_renewal' else 'bg-secondary'}" 
+                                  t-field="contract.state"/>
+                        </div>
+
+                        <!-- Agreement Meta Details -->
+                        <div class="row mb-4">
+                            <div class="col-md-6 border-end">
+                                <h5 class="fw-bold text-primary mb-3"><i class="fa fa-info-circle"></i> General Information</h5>
+                                <table class="table table-borderless table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <th class="ps-0 text-muted" style="width: 40%;">Client Name:</th>
+                                            <td class="fw-semibold"><span t-field="contract.partner_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="ps-0 text-muted">Start Date:</th>
+                                            <td><span t-field="contract.start_date" t-options='{"widget": "date"}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="ps-0 text-muted">Expiration Date:</th>
+                                            <td class="text-danger fw-semibold"><span t-field="contract.end_date" t-options='{"widget": "date"}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="ps-0 text-muted">Contract Duration:</th>
+                                            <td><span t-field="contract.contract_term_months"/> Months</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6 ps-4">
+                                <h5 class="fw-bold text-primary mb-3"><i class="fa fa-lock"></i> Digital Signature Status</h5>
+                                <div t-if="contract.is_signed" class="alert alert-success border-0 shadow-sm py-2">
+                                    <h6 class="fw-bold mb-1"><i class="fa fa-check-circle"></i> Signed &amp; Authenticated</h6>
+                                    <small class="text-muted">
+                                        Signed by: <strong t-field="contract.signed_by"/><br/>
+                                        Date: <span t-field="contract.signature_date" t-options='{"widget": "datetime"}'/>
+                                    </small>
+                                </div>
+                                <div t-else="" class="alert alert-warning border-0 shadow-sm py-2">
+                                    <h6 class="fw-bold mb-1"><i class="fa fa-clock-o"></i> Pending Signature</h6>
+                                    <small class="text-muted">This agreement is currently draft/pending signature. Please sign using the action panel on the right.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contract Line Items Table -->
+                        <h5 class="fw-bold text-primary mb-3"><i class="fa fa-list-alt"></i> Services &amp; Line Items</h5>
+                        <div class="table-responsive mb-4">
+                            <table class="table table-hover align-middle border">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="ps-3">Service Description</th>
+                                        <th class="text-center" style="width: 15%;">Quantity</th>
+                                        <th class="text-end" style="width: 20%;">Unit Price</th>
+                                        <th class="text-end pe-3" style="width: 25%;">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="contract.line_ids" t-as="line">
+                                        <tr>
+                                            <td class="ps-3">
+                                                <strong t-field="line.product_id.name"/><br/>
+                                                <small class="text-muted" t-field="line.name"/>
+                                            </td>
+                                            <td class="text-center" t-field="line.quantity"/>
+                                            <td class="text-end" t-field="line.price_unit" t-options='{"widget": "monetary", "display_currency": contract.currency_id}'/>
+                                            <td class="text-end pe-3 fw-semibold" t-field="line.price_subtotal" t-options='{"widget": "monetary", "display_currency": contract.currency_id}'/>
+                                        </tr>
+                                    </t>
+                                    <tr class="table-light">
+                                        <td colspan="3" class="text-end fw-bold pe-3">Total Portfolio Value:</td>
+                                        <td class="text-end pe-3 fw-bold text-primary fs-5" t-field="contract.total_amount" t-options='{"widget": "monetary", "display_currency": contract.currency_id}'/>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- AI Summary Report Widget -->
+                        <div t-if="contract.ai_summary" class="mt-4">
+                            <h5 class="fw-bold text-primary mb-3"><i class="fa fa-magic"></i> AI Engine Contract Analysis</h5>
+                            <t t-out="contract.ai_summary"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side Actions Column -->
+                <div class="col-lg-3 col-md-12">
+                    <div class="card shadow-sm border-0 rounded-4 p-3 bg-white mb-3">
+                        <h5 class="fw-bold mb-3 border-bottom pb-2" style="color: #2C3E50;">Actions</h5>
+                        
+                        <!-- Portal Electronic Signature -->
+                        <t t-if="not contract.is_signed">
+                            <button class="btn btn-success w-100 rounded-pill py-2 fw-semibold shadow-sm mb-2" data-bs-toggle="modal" data-bs-target="#signatureModal">
+                                <i class="fa fa-pencil"></i> Sign Agreement
+                            </button>
+                        </t>
+                        <a class="btn btn-outline-secondary w-100 rounded-pill py-2 fw-semibold" t-attf-href="mailto:{{ contract.env.user.email or 'contracts@company.com' }}?subject=Feedback on Contract {{ contract.name }}">
+                            <i class="fa fa-commenting-o"></i> Contact Account Mgr
+                        </a>
+                    </div>
+
+                    <!-- Company Help card -->
+                    <div class="card shadow-sm border-0 rounded-4 p-3 bg-white text-center">
+                        <h6 class="fw-bold text-primary mb-2">Need Assistance?</h6>
+                        <p class="small text-muted mb-2">For custom service-level adjustments or billing inquiries, feel free to contact our legal &amp; sales desk.</p>
+                        <strong class="small text-dark">+1 (555) 123-Odoo</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signature Modal Box -->
+            <div class="modal fade" id="signatureModal" tabindex="-1" aria-labelledby="signatureModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow rounded-4">
+                        <div class="modal-header border-bottom">
+                            <h5 class="modal-title fw-bold" id="signatureModalLabel">Sign Your Agreement</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form t-attf-action="/my/contract/{{ contract.id }}/accept" method="POST">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="modal-body">
+                                <p class="text-muted small">By entering your name, you acknowledge that you are signing this document digitally. This has the same legal validity as a handwritten signature.</p>
+                                <div class="mb-3">
+                                    <label for="signer_name" class="form-label fw-bold">Type Your Full Name:</label>
+                                    <input type="text" class="form-control rounded-3" id="signer_name" name="signer_name" required="required" placeholder="e.g. John Doe"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-top">
+                                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success rounded-pill px-4 fw-semibold shadow-sm">
+                                    Confirm Signature
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

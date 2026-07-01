@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top-level Menu -->
+    <menuitem id="menu_smart_contract_root" 
+              name="Smart Contracts" 
+              sequence="25" 
+              web_icon="smart_contract_ai,static/description/icon.png"/>
+
+    <!-- Submenu Category -->
+    <menuitem id="menu_smart_contract_management" 
+              name="Management" 
+              parent="menu_smart_contract_root" 
+              sequence="10"/>
+
+    <!-- Action Link Menus -->
+    <menuitem id="menu_smart_contract_records" 
+              name="Agreements" 
+              parent="menu_smart_contract_management" 
+              action="action_smart_contract" 
+              sequence="10"/>
+</odoo>
