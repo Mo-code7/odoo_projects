@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- القائمة الرئيسية -->
+    <menuitem id="restaurant_menu_root"
+              name="🍽️ المطعم"
+              sequence="50"/>
+
+    <!-- داشبورد -->
+    <menuitem id="restaurant_menu_dashboard"
+              name="📊 الداشبورد"
+              parent="restaurant_menu_root"
+              action="restaurant_dashboard_action"
+              sequence="5"/>
+
+    <!-- طلبات -->
+    <menuitem id="restaurant_menu_orders"
+              name="📋 الطلبات"
+              parent="restaurant_menu_root"
+              action="restaurant_order_action"
+              sequence="10"/>
+
+    <!-- تقارير -->
+    <menuitem id="restaurant_menu_reports"
+              name="📈 التقارير"
+              parent="restaurant_menu_root"
+              sequence="20"/>
+
+    <menuitem id="restaurant_menu_sale_report"
+              name="تقرير المبيعات"
+              parent="restaurant_menu_reports"
+              action="restaurant_sale_report_action"
+              sequence="10"/>
+</odoo>
