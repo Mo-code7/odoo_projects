@@ -14,6 +14,7 @@
         - طباعة فاتورة PDF بالعربي
     """,
     'author': 'Moaz Omar',
+    'website': 'https://eg.dashboard.paymob.com'
     'depends': ['base', 'mail', 'product', 'account'],
     'data': [
         'security/ir.model.access.csv',
