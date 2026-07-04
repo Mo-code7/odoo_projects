@@ -4,34 +4,34 @@ from odoo import api, fields, models
 
 class RestaurantOrderLine(models.Model):
     _name = 'restaurant.order.line'
-    _description = 'صنف طلب مطعم'
+    _description = 'Restaurant order category'
 
     order_id = fields.Many2one(
-        'restaurant.order', string='الطلب',
+        'restaurant.order', string='Orders',
         required=True, ondelete='cascade', index=True,
     )
     product_id = fields.Many2one(
-        'product.product', string='الصنف',
+        'product.product', string='Category',
         required=True, domain=[('sale_ok', '=', True)],
     )
     product_qty = fields.Float(
-        string='الكمية', default=1.0, required=True,
+        string='Quantity', default=1.0, required=True,
     )
     price_unit = fields.Float(
-        string='السعر', digits='Product Price',
+        string='Price', digits='Product Price',
     )
     tax_ids = fields.Many2many(
-        'account.tax', string='الضرائب',
+        'account.tax', string='Taxs',
     )
     price_subtotal = fields.Float(
-        string='الإجمالي قبل الضريبة',
+        string='Total before tax',
         compute='_compute_price', store=True,
     )
     price_tax = fields.Float(
-        string='الضريبة',
+        string='Tax',
         compute='_compute_price', store=True,
     )
-    notes = fields.Char(string='ملاحظات الصنف')
+    notes = fields.Char(string='Notes')
 
     @api.onchange('product_id')
     def _onchange_product_id(self):

@@ -5,21 +5,21 @@ from odoo import api, fields, models
 
 class RestaurantDashboard(models.TransientModel):
     _name = 'restaurant.dashboard'
-    _description = 'داشبورد المطعم'
+    _description = 'Restaurant Dashboard'
 
-    # ─── إحصائيات اليوم ────────────────────────────────────────────
-    today_orders        = fields.Integer(string='طلبات اليوم',  compute='_compute_stats')
-    today_revenue       = fields.Monetary(string='إيرادات اليوم', compute='_compute_stats')
-    today_paid          = fields.Integer(string='مدفوع اليوم',  compute='_compute_stats')
-    today_pending       = fields.Integer(string='في انتظار الدفع', compute='_compute_stats')
+    # ─── Today's statistics ────────────────────────────────────────────
+    today_orders        = fields.Integer(string='Today Ordes',  compute='_compute_stats')
+    today_revenue       = fields.Monetary(string='Today Revenue', compute='_compute_stats')
+    today_paid          = fields.Integer(string='Today Paid',  compute='_compute_stats')
+    today_pending       = fields.Integer(string='Today Pending', compute='_compute_stats')
 
-    # ─── إحصائيات الأسبوع ──────────────────────────────────────────
-    week_orders         = fields.Integer(string='طلبات الأسبوع',   compute='_compute_stats')
-    week_revenue        = fields.Monetary(string='إيرادات الأسبوع', compute='_compute_stats')
+    # ─── Week's statistics ──────────────────────────────────────────
+    week_orders         = fields.Integer(string='Week Orders',   compute='_compute_stats')
+    week_revenue        = fields.Monetary(string='Week Revenue', compute='_compute_stats')
 
-    # ─── أكثر الأصناف طلباً ────────────────────────────────────────
-    top_product_name    = fields.Char(string='الصنف الأكثر طلباً', compute='_compute_stats')
-    top_product_qty     = fields.Float(string='الكمية',             compute='_compute_stats')
+    # ─── Most requested items ────────────────────────────────────────
+    top_product_name    = fields.Char(string='Top Products', compute='_compute_stats')
+    top_product_qty     = fields.Float(string='Quantity',    compute='_compute_stats')
 
     currency_id         = fields.Many2one(
         'res.currency', default=lambda self: self.env.company.currency_id
@@ -34,7 +34,7 @@ class RestaurantDashboard(models.TransientModel):
         Line  = self.env['restaurant.order.line']
 
         for rec in self:
-            # اليوم
+            # Today
             today_recs = Order.search([
                 ('create_date', '>=', f'{today} 00:00:00'),
                 ('state', 'not in', ['cancel', 'draft']),
@@ -46,7 +46,7 @@ class RestaurantDashboard(models.TransientModel):
             rec.today_pending = len(today_recs.filtered(
                 lambda o: o.payment_status == 'pending'))
 
-            # الأسبوع
+            # Week
             week_recs = Order.search([
                 ('create_date', '>=', f'{week_start} 00:00:00'),
                 ('state', 'not in', ['cancel', 'draft']),
@@ -54,7 +54,7 @@ class RestaurantDashboard(models.TransientModel):
             rec.week_orders  = len(week_recs)
             rec.week_revenue = sum(week_recs.mapped('amount_total'))
 
-            # أكثر الأصناف طلباً (هذا الأسبوع)
+            # Most requested items (This week)
             if week_recs:
                 self.env.cr.execute("""
                     SELECT p.name->>'ar_001' AS pname,
@@ -70,19 +70,19 @@ class RestaurantDashboard(models.TransientModel):
                 """, [week_recs.ids])
                 row = self.env.cr.fetchone()
                 if row:
-                    rec.top_product_name = row[0] or row[1] or 'غير محدد'
+                    rec.top_product_name = row[0] or row[1] or 'Undefined'
                     rec.top_product_qty  = row[2]
                 else:
-                    rec.top_product_name = 'لا يوجد بيانات'
+                    rec.top_product_name = 'No data available'
                     rec.top_product_qty  = 0
             else:
-                rec.top_product_name = 'لا يوجد بيانات'
+                rec.top_product_name = 'No data available'
                 rec.top_product_qty  = 0
 
     def action_open_orders(self):
         return {
             'type':      'ir.actions.act_window',
-            'name':      'طلبات المطعم',
+            'name':      'Restaurant Orders',
             'res_model': 'restaurant.order',
             'view_mode': 'list,kanban,form',
         }
@@ -90,7 +90,7 @@ class RestaurantDashboard(models.TransientModel):
     def action_open_report(self):
         return {
             'type':      'ir.actions.act_window',
-            'name':      'تقرير المبيعات',
+            'name':      'Sales Report',
             'res_model': 'restaurant.sale.report',
             'view_mode': 'pivot,graph,list',
         }

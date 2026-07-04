@@ -6,10 +6,10 @@
         <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//app[@name='general_settings']" position="inside">
-                <div class="app_settings_block" data-string="PayMob للمطعم" string="PayMob للمطعم">
-                    <h2>إعدادات PayMob</h2>
+                <div class="app_settings_block" data-string="PayMob for the restaurant" string="PayMob for the restaurant">
+                    <h2>PayMob settings</h2>
                     <div class="text-muted mb-3">
-                        احصل على هذه البيانات من لوحة تحكم PayMob:
+                        Get this data from the PayMob dashboard:
                         <a href="https://accept.paymob.com" target="_blank">accept.paymob.com</a>
                     </div>
                     <div class="row mt16 o_settings_container">
@@ -17,7 +17,7 @@
                             <div class="o_setting_right_pane">
                                 <label for="paymob_api_key" string="API Key"/>
                                 <div class="text-muted">
-                                    من: Settings > Account Info > API Key
+                                    from: Settings > Account Info > API Key
                                 </div>
                                 <div class="content-group">
                                     <field name="paymob_api_key" password="True"
@@ -29,7 +29,7 @@
                             <div class="o_setting_right_pane">
                                 <label for="paymob_integration_id" string="Integration ID"/>
                                 <div class="text-muted">
-                                    من: Settings > Integrations > Online Card
+                                    from: Settings > Integrations > Online Card
                                 </div>
                                 <div class="content-group">
                                     <field name="paymob_integration_id" placeholder="123456"/>
@@ -40,7 +40,7 @@
                             <div class="o_setting_right_pane">
                                 <label for="paymob_iframe_id" string="iFrame ID"/>
                                 <div class="text-muted">
-                                    من: Settings > iFrames
+                                    from: Settings > iFrames
                                 </div>
                                 <div class="content-group">
                                     <field name="paymob_iframe_id" placeholder="99999"/>
@@ -51,7 +51,7 @@
                             <div class="o_setting_right_pane">
                                 <label for="paymob_hmac_secret" string="HMAC Secret"/>
                                 <div class="text-muted">
-                                    للتحقق من الـ Webhook (اختياري لكن مستحسن)
+                                To check the Webhook (optional but recommended)
                                 </div>
                                 <div class="content-group">
                                     <field name="paymob_hmac_secret" password="True"
@@ -62,7 +62,7 @@
                     </div>
                     <div class="alert alert-info mt-2">
                         <strong>🔗 Webhook URL:</strong>
-                        اضبط هذا الرابط في PayMob تحت "Transaction Processed Callback":
+                        Set this link in PayMob under "Transaction Processed Callback":
                         <code>https://yourdomain.com/paymob/webhook</code>
                     </div>
                 </div>

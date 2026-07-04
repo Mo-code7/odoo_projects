@@ -13,62 +13,62 @@ _logger = logging.getLogger(__name__)
 
 class RestaurantOrder(models.Model):
     _name = 'restaurant.order'
-    _description = 'طلب مطعم'
+    _description = 'Restaurant Order'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'create_date desc'
 
-    # ─── حقول أساسية ───────────────────────────────────────────────
+    # ─── Main Fields ───────────────────────────────────────────────
     name = fields.Char(
-        string='رقم الطلب',
+        string='Order ID',
         required=True,
         copy=False,
         readonly=True,
-        default=lambda self: _('جديد'),
+        default=lambda self: _('New'),
         tracking=True,
     )
     state = fields.Selection([
-        ('draft',    'جديد'),
-        ('confirmed','مؤكد'),
-        ('preparing','قيد التحضير'),
-        ('ready',    'جاهز'),
-        ('paid',     'مدفوع'),
-        ('done',     'مكتمل'),
-        ('cancel',   'ملغي'),
-    ], string='الحالة', default='draft', tracking=True, index=True)
+        ('draft',    'Draft'),
+        ('confirmed','Confirmed'),
+        ('preparing','Preparing'),
+        ('ready',    'Ready'),
+        ('paid',     'Paid'),
+        ('done',     'Done'),
+        ('cancel',   'CAncel'),
+    ], string='Status', default='draft', tracking=True, index=True)
 
-    # ─── بيانات العميل ─────────────────────────────────────────────
+    # ─── Customer Data ─────────────────────────────────────────────
     partner_id = fields.Many2one(
-        'res.partner', string='العميل',
+        'res.partner', string='Customer',
         required=True, tracking=True,
     )
-    table_number = fields.Char(string='رقم الطاولة')
+    table_number = fields.Char(string='Table NO.')
     order_type = fields.Selection([
-        ('dine_in',  'داخل المطعم'),
-        ('takeaway', 'تيك أواي'),
-        ('delivery', 'توصيل'),
-    ], string='نوع الطلب', default='dine_in', required=True, tracking=True)
+        ('dine_in',  'Dine in'),
+        ('takeaway', 'Takeaway'),
+        ('delivery', 'Delivery'),
+    ], string='Order Type', default='dine_in', required=True, tracking=True)
 
-    # ─── الأصناف ───────────────────────────────────────────────────
+    # ─── Categories ───────────────────────────────────────────────────
     order_line_ids = fields.One2many(
         'restaurant.order.line', 'order_id',
-        string='أصناف الطلب',
+        string='Order Categories',
     )
 
-    # ─── المبالغ ───────────────────────────────────────────────────
+    # ─── Totals ───────────────────────────────────────────────────
     amount_untaxed = fields.Monetary(
-        string='المجموع قبل الضريبة',
+        string='Total before tax',
         compute='_compute_amounts', store=True,
     )
     amount_tax = fields.Monetary(
-        string='الضريبة',
+        string='Tax',
         compute='_compute_amounts', store=True,
     )
     amount_total = fields.Monetary(
-        string='الإجمالي',
+        string='Total',
         compute='_compute_amounts', store=True, tracking=True,
     )
     currency_id = fields.Many2one(
-        'res.currency', string='العملة',
+        'res.currency', string='currency',
         default=lambda self: self.env.company.currency_id,
     )
 
@@ -76,15 +76,15 @@ class RestaurantOrder(models.Model):
     paymob_order_id       = fields.Char(string='PayMob Order ID', readonly=True, copy=False)
     paymob_payment_key    = fields.Char(string='PayMob Payment Key', readonly=True, copy=False)
     paymob_transaction_id = fields.Char(string='PayMob Transaction ID', readonly=True, copy=False)
-    paymob_payment_url    = fields.Char(string='رابط الدفع', readonly=True, copy=False)
+    paymob_payment_url    = fields.Char(string='Payment URL', readonly=True, copy=False)
     payment_status        = fields.Selection([
-        ('pending',  'في الانتظار'),
-        ('success',  'ناجح'),
-        ('failed',   'فاشل'),
-        ('refunded', 'مسترجع'),
-    ], string='حالة الدفع', default='pending', tracking=True)
+        ('pending',  'Pending'),
+        ('success',  'Success'),
+        ('failed',   'Failed'),
+        ('refunded', 'Refunded'),
+    ], string='Payment status', default='pending', tracking=True)
 
-    notes = fields.Text(string='ملاحظات')
+    notes = fields.Text(string='Notes')
 
     # ─── Compute ───────────────────────────────────────────────────
     @api.depends('order_line_ids.price_subtotal', 'order_line_ids.price_tax')
@@ -100,16 +100,16 @@ class RestaurantOrder(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if vals.get('name', _('جديد')) == _('جديد'):
+            if vals.get('name', _('New')) == _('New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code(
-                    'restaurant.order') or _('جديد')
+                    'restaurant.order') or _('New')
         return super().create(vals_list)
 
     # ─── Actions / Buttons ─────────────────────────────────────────
     def action_confirm(self):
         for order in self:
             if not order.order_line_ids:
-                raise UserError(_('لازم تضيف أصناف للطلب الأول!'))
+                raise UserError(_('You must add items to the first order!'))
             order.state = 'confirmed'
 
     def action_start_preparing(self):
@@ -121,7 +121,7 @@ class RestaurantOrder(models.Model):
     def action_cancel(self):
         for order in self:
             if order.state == 'paid':
-                raise UserError(_('مش ممكن تلغي طلب مدفوع.'))
+                raise UserError(_('It is not possible to cancel a paid order.'))
         self.write({'state': 'cancel'})
 
     def action_reset_draft(self):
@@ -132,7 +132,7 @@ class RestaurantOrder(models.Model):
         """الخطوة الرئيسية: يبدأ عملية الدفع عبر PayMob"""
         self.ensure_one()
         if self.amount_total <= 0:
-            raise UserError(_('المبلغ الإجمالي لازم يكون أكبر من صفر!'))
+            raise UserError(_('The total amount must be greater than zero!'))
 
         config = self.env['ir.config_parameter'].sudo()
         api_key        = config.get_param('restaurant_paymob.api_key')
@@ -141,23 +141,23 @@ class RestaurantOrder(models.Model):
 
         if not all([api_key, integration_id, iframe_id]):
             raise UserError(_(
-                'من فضلك اضبط إعدادات PayMob في الإعدادات أولاً.\n'
+                'Please adjust the PayMob settings in the settings first.\n'
                 '(API Key, Integration ID, iFrame ID)'
             ))
 
         try:
-            # الخطوة 1: Authentication Token
+            # Step1: Authentication Token
             auth_token = self._paymob_get_auth_token(api_key)
 
-            # الخطوة 2: Order Registration
+            # Step2: Order Registration
             paymob_order = self._paymob_register_order(auth_token)
 
-            # الخطوة 3: Payment Key
+            # Step3: Payment Key
             payment_key = self._paymob_get_payment_key(
                 auth_token, paymob_order['id'], integration_id
             )
 
-            # حفظ البيانات
+            # Save Data
             payment_url = (
                 f"https://accept.paymob.com/api/acceptance/iframes/"
                 f"{iframe_id}?payment_token={payment_key}"
@@ -169,7 +169,7 @@ class RestaurantOrder(models.Model):
                 'state':              'confirmed',
             })
 
-            # فتح رابط الدفع في تاب جديد
+            # Open the payment link in a new tab
             return {
                 'type': 'ir.actions.act_url',
                 'url':  payment_url,
@@ -178,10 +178,10 @@ class RestaurantOrder(models.Model):
 
         except requests.exceptions.RequestException as e:
             _logger.error("PayMob API Error: %s", str(e))
-            raise UserError(_('فيه مشكلة في الاتصال بـ PayMob: %s') % str(e))
+            raise UserError(_('There is a problem connecting to PayMob: %s') % str(e))
 
     def _paymob_get_auth_token(self, api_key):
-        """الخطوة 1: الحصول على Authentication Token"""
+        """Step1 Authentication Token"""
         response = requests.post(
             'https://accept.paymob.com/api/auth/tokens',
             json={'api_key': api_key},
@@ -190,12 +190,12 @@ class RestaurantOrder(models.Model):
         response.raise_for_status()
         data = response.json()
         if 'token' not in data:
-            raise UserError(_('PayMob: فشل الحصول على Auth Token'))
+            raise UserError(_('PayMob: Failed to obtain Auth Token'))
         return data['token']
 
     def _paymob_register_order(self, auth_token):
-        """الخطوة 2: تسجيل الطلب في PayMob"""
-        # PayMob بيشتغل بالـ cents (المبلغ × 100)
+        """Step 2 PayMob"""
+        # PayMob cents (Total × 100)
         amount_cents = int(self.amount_total * 100)
 
         items = []
@@ -223,7 +223,7 @@ class RestaurantOrder(models.Model):
         return response.json()
 
     def _paymob_get_payment_key(self, auth_token, paymob_order_id, integration_id):
-        """الخطوة 3: الحصول على Payment Key"""
+        """Step3 Payment Key"""
         amount_cents = int(self.amount_total * 100)
 
         billing_data = {
@@ -258,23 +258,23 @@ class RestaurantOrder(models.Model):
         response.raise_for_status()
         data = response.json()
         if 'token' not in data:
-            raise UserError(_('PayMob: فشل الحصول على Payment Key'))
+            raise UserError(_('PayMob: Failed to obtain Payment Key'))
         return data['token']
 
     def action_mark_paid(self):
-        """تأكيد الدفع يدوياً (Fallback)"""
+        """Manual payment confirmation (Fallback)"""
         self.ensure_one()
         self.write({
             'state':          'paid',
             'payment_status': 'success',
         })
-        self.message_post(body=_('✅ تم تأكيد الدفع يدوياً'))
+        self.message_post(body=_('Payment was confirmed manually✅'))
 
     def action_open_payment_url(self):
         """فتح رابط الدفع"""
         self.ensure_one()
         if not self.paymob_payment_url:
-            raise UserError(_('مفيش رابط دفع. اضغط "ادفع بـ PayMob" الأول.'))
+            raise UserError(_('There is no payment link. Click the first "Pay with PayMob" button.'))
         return {
             'type':   'ir.actions.act_url',
             'url':    self.paymob_payment_url,

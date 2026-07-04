@@ -3,15 +3,15 @@
     'name': 'Restaurant PayMob Integration',
     'version': '19.0.1.0.0',
     'category': 'Restaurant',
-    'summary': 'إدارة طلبات المطعم مع بوابة دفع PayMob',
+    'summary': 'Manage restaurant orders with the PayMob payment gateway',
     'description': """
-        موديول متكامل لإدارة طلبات المطعم مع دعم الدفع الإلكتروني عبر PayMob.
-        - إدارة الطلبات والمراحل
-        - دفع إلكتروني عبر PayMob (3 خطوات رسمية)
-        - Webhook لتأكيد الدفع تلقائياً مع HMAC security
-        - داشبورد بإحصائيات اليوم والأسبوع
-        - تقارير المبيعات (Pivot + Graph)
-        - طباعة فاتورة PDF بالعربي
+        Managing restaurant orders with the PayMob payment gateway is an integrated module for managing restaurant orders with support for electronic payment via PayMob. 
+        - Managing requests and stages 
+        - Electronic payment via PayMob (3 official steps) 
+        - Webhook to automatically confirm payment with HMAC security 
+        - Dashboard with daily and week statistics 
+        - Sales reports (Pivot + Graph) 
+        - Print a PDF invoice in Arabic
     """,
     'author': 'Moaz Omar',
     'website': 'https://eg.dashboard.paymob.com'

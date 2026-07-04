@@ -32,7 +32,7 @@ class PaymobWebhookController(http.Controller):
             data     = json.loads(raw_data)
             _logger.info("PayMob Webhook received: %s", json.dumps(data, indent=2))
 
-            # ─── التحقق من HMAC (أمان) ───────────────────────────
+            # ─── Validation HMAC (Security) ───────────────────────────
             hmac_secret = request.env['ir.config_parameter'].sudo().get_param(
                 'restaurant_paymob.hmac_secret'
             )
@@ -42,7 +42,7 @@ class PaymobWebhookController(http.Controller):
                     _logger.warning("PayMob Webhook: HMAC verification failed!")
                     return request.make_response('Unauthorized', status=401)
 
-            # ─── معالجة البيانات ─────────────────────────────────
+            # ─── Data processing ─────────────────────────────────
             obj         = data.get('obj', {})
             success     = obj.get('success', False)
             pending     = obj.get('pending', False)
@@ -53,16 +53,16 @@ class PaymobWebhookController(http.Controller):
             transaction_id = str(obj.get('id', ''))
 
             if not merchant_order_id:
-                _logger.warning("PayMob Webhook: merchant_order_id مش موجود")
+                _logger.warning("PayMob Webhook: merchant_order_id not available")
                 return request.make_response('OK', status=200)
 
-            # ─── تحديث الطلب ─────────────────────────────────────
+            # ─── Order update ─────────────────────────────────────
             order = request.env['restaurant.order'].sudo().search(
                 [('name', '=', merchant_order_id)], limit=1
             )
             if not order:
                 _logger.warning(
-                    "PayMob Webhook: Order '%s' مش موجود في أوديو",
+                    "PayMob Webhook: Order '%s' not available in Odoo",
                     merchant_order_id
                 )
                 return request.make_response('OK', status=200)
@@ -75,7 +75,7 @@ class PaymobWebhookController(http.Controller):
                 })
                 order.message_post(
                     body=_(
-                        '✅ تم الدفع بنجاح عبر PayMob\n'
+                        'Payment was successfully made via PayMob✅\n'
                         'Transaction ID: %s'
                     ) % transaction_id
                 )
@@ -87,7 +87,7 @@ class PaymobWebhookController(http.Controller):
             elif not success and not pending:
                 order.write({'payment_status': 'failed'})
                 order.message_post(
-                    body=_('❌ فشل الدفع عبر PayMob. Transaction ID: %s') % transaction_id
+                    body=_('PayMob payment failed❌. Transaction ID: %s') % transaction_id
                 )
                 _logger.warning(
                     "PayMob: Payment failed for order %s", merchant_order_id
@@ -109,7 +109,7 @@ class PaymobWebhookController(http.Controller):
         """
         obj = data.get('obj', {})
 
-        # الحقول اللي PayMob بيحسب عليها الـ HMAC (بالترتيب)
+        # The fields that PayMob calculates HMAC on (in order)
         hmac_fields = [
             'amount_cents', 'created_at', 'currency', 'error_occured',
             'has_parent_transaction', 'id', 'integration_id', 'is_3d_secure',

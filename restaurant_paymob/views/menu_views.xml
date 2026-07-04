@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- القائمة الرئيسية -->
+    <!-- Main Menu -->
     <menuitem id="restaurant_menu_root"
-              name="🍽️ المطعم"
+              name="Restaurant 🍽️"
               sequence="50"/>
 
-    <!-- داشبورد -->
+    <!-- Dashboard -->
     <menuitem id="restaurant_menu_dashboard"
-              name="📊 الداشبورد"
+              name="Dashboard 📊"
               parent="restaurant_menu_root"
               action="restaurant_dashboard_action"
               sequence="5"/>
 
-    <!-- طلبات -->
+    <!-- Orders -->
     <menuitem id="restaurant_menu_orders"
-              name="📋 الطلبات"
+              name="Orders 📋"
               parent="restaurant_menu_root"
               action="restaurant_order_action"
               sequence="10"/>
 
-    <!-- تقارير -->
+    <!-- Reports -->
     <menuitem id="restaurant_menu_reports"
-              name="📈 التقارير"
+              name="Reports 📈"
               parent="restaurant_menu_root"
               sequence="20"/>
 
     <menuitem id="restaurant_menu_sale_report"
-              name="تقرير المبيعات"
+              name="Sales Report"
               parent="restaurant_menu_reports"
               action="restaurant_sale_report_action"
               sequence="10"/>

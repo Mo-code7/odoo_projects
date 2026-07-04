@@ -2,59 +2,59 @@
 <odoo>
 
     <!-- ═══════════════════════════════════════════════════
-         Form View - طلب المطعم
+         Form View - Restaurant order
     ═══════════════════════════════════════════════════ -->
     <record id="restaurant_order_view_form" model="ir.ui.view">
         <field name="name">restaurant.order.form</field>
         <field name="model">restaurant.order</field>
         <field name="arch" type="xml">
-            <form string="طلب مطعم">
+            <form string="Restaurant order">
 
                 <!-- Status Bar -->
                 <header>
                     <button name="action_confirm"
-                            string="تأكيد الطلب"
+                            string="Confirm Order"
                             type="object"
                             class="btn-primary"
                             invisible="state != 'draft'"/>
 
                     <button name="action_start_preparing"
-                            string="بدء التحضير"
+                            string="Start Preparing"
                             type="object"
                             class="btn-primary"
                             invisible="state != 'confirmed'"/>
 
                     <button name="action_ready"
-                            string="جاهز للتسليم"
+                            string="Ready"
                             type="object"
                             class="btn-primary"
                             invisible="state != 'preparing'"/>
 
                     <button name="action_pay_with_paymob"
-                            string="💳 ادفع بـ PayMob"
+                            string="Pay with PayMob 💳"
                             type="object"
                             class="btn-success"
                             invisible="state not in ('confirmed', 'preparing', 'ready') or payment_status == 'success'"/>
 
                     <button name="action_open_payment_url"
-                            string="🔗 افتح رابط الدفع"
+                            string="Open the payment link 🔗"
                             type="object"
                             class="btn-info"
                             invisible="not paymob_payment_url or payment_status == 'success'"/>
 
                     <button name="action_mark_paid"
-                            string="✅ تأكيد الدفع يدوياً"
+                            string="Manual payment ✅"
                             type="object"
                             invisible="state not in ('confirmed', 'preparing', 'ready')"/>
 
                     <button name="action_cancel"
-                            string="إلغاء"
+                            string="Cancel"
                             type="object"
                             class="btn-danger"
                             invisible="state in ('paid', 'done', 'cancel')"/>
 
                     <button name="action_reset_draft"
-                            string="إعادة لمسودة"
+                            string="Set to Draft"
                             type="object"
                             invisible="state != 'cancel'"/>
 
@@ -66,12 +66,12 @@
                     <!-- PayMob Payment Status Banner -->
                     <div class="alert alert-success"
                          invisible="payment_status != 'success'">
-                        <strong>✅ تم الدفع بنجاح!</strong>
+                        <strong>Payment successfully! ✅</strong>
                         Transaction ID: <field name="paymob_transaction_id" readonly="1"/>
                     </div>
                     <div class="alert alert-danger"
                          invisible="payment_status != 'failed'">
-                        <strong>❌ فشل الدفع.</strong> يرجى المحاولة مجدداً.
+                        <strong>Payment failed ❌</strong> Please try again.
                     </div>
 
                     <div class="oe_title">
@@ -81,13 +81,13 @@
                     </div>
 
                     <group>
-                        <group string="بيانات الطلب">
+                        <group string="Order data">
                             <field name="partner_id"/>
                             <field name="order_type"/>
                             <field name="table_number"
                                    invisible="order_type != 'dine_in'"/>
                         </group>
-                        <group string="بيانات الدفع">
+                        <group string="Pay data">
                             <field name="currency_id" invisible="1"/>
                             <field name="payment_status" readonly="1"/>
                             <field name="paymob_order_id" readonly="1"
@@ -97,9 +97,9 @@
                         </group>
                     </group>
 
-                    <!-- أصناف الطلب -->
+                    <!-- Order category -->
                     <notebook>
-                        <page string="🍽️ الأصناف" name="order_lines">
+                        <page string="Categories 🍽️" name="order_lines">
                             <field name="order_line_ids" invisible="state in ('paid', 'done')">
                                 <list editable="bottom">
                                     <!-- <column_invisible>parent.state in ('paid', 'done')</column_invisible> -->
@@ -112,7 +112,7 @@
                                 </list>
                             </field>
 
-                            <!-- المجاميع -->
+                            <!-- Totals -->
                             <group class="oe_subtotal_footer">
                                 <field name="amount_untaxed" readonly="1"/>
                                 <field name="amount_tax" readonly="1"/>
@@ -121,8 +121,8 @@
                             </group>
                         </page>
 
-                        <page string="📝 ملاحظات" name="notes">
-                            <field name="notes" placeholder="أي ملاحظات خاصة بالطلب..."/>
+                        <page string="Notes 📝" name="notes">
+                            <field name="notes" placeholder="Any notes regarding the order..."/>
                         </page>
                     </notebook>
                 </sheet>
@@ -139,7 +139,7 @@
         <field name="name">restaurant.order.list</field>
         <field name="model">restaurant.order</field>
         <field name="arch" type="xml">
-            <list string="طلبات المطعم" decoration-success="state == 'paid'"
+            <list string="Restaurant Orders" decoration-success="state == 'paid'"
                   decoration-warning="state == 'preparing'"
                   decoration-muted="state == 'cancel'">
                 <field name="name"/>
@@ -212,24 +212,24 @@
         <field name="name">restaurant.order.search</field>
         <field name="model">restaurant.order</field>
         <field name="arch" type="xml">
-            <search string="بحث في الطلبات">
-                <field name="name" string="رقم الطلب"/>
-                <field name="partner_id" string="العميل"/>
+            <search string="Search in order">
+                <field name="name" string="Order NO."/>
+                <field name="partner_id" string="Customer"/>
                 <separator/>
-                <filter string="جديد"           name="draft"     domain="[('state','=','draft')]"/>
-                <filter string="قيد التحضير"    name="preparing" domain="[('state','=','preparing')]"/>
-                <filter string="جاهز"           name="ready"     domain="[('state','=','ready')]"/>
-                <filter string="مدفوع"          name="paid"      domain="[('state','=','paid')]"/>
+                <filter string="Draft"           name="draft"     domain="[('state','=','draft')]"/>
+                <filter string="preparing"    name="preparing" domain="[('state','=','preparing')]"/>
+                <filter string="Ready"           name="ready"     domain="[('state','=','ready')]"/>
+                <filter string="PAid"          name="paid"      domain="[('state','=','paid')]"/>
                 <separator/>
-                <filter string="دفع ناجح"       name="paid_ok"   domain="[('payment_status','=','success')]"/>
-                <filter string="دفع فاشل"       name="paid_fail" domain="[('payment_status','=','failed')]"/>
+                <filter string="Success"       name="paid_ok"   domain="[('payment_status','=','success')]"/>
+                <filter string="Failed"       name="paid_fail" domain="[('payment_status','=','failed')]"/>
                 <separator/>
-                <filter string="اليوم"          name="today"
+                <filter string="Today"          name="today"
                         domain="[('create_date','&gt;=', (context_today()).strftime('%Y-%m-%d'))]"/>
                 <group>
-                    <filter string="الحالة"     name="group_state"   context="{'group_by': 'state'}"/>
-                    <filter string="نوع الطلب"  name="group_type"    context="{'group_by': 'order_type'}"/>
-                    <filter string="العميل"     name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="status"     name="group_state"   context="{'group_by': 'state'}"/>
+                    <filter string="Order type"  name="group_type"    context="{'group_by': 'order_type'}"/>
+                    <filter string="Customer"     name="group_partner" context="{'group_by': 'partner_id'}"/>
                 </group>
             </search>
         </field>
@@ -239,17 +239,17 @@
          Action
     ═══════════════════════════════════════════════════ -->
     <record id="restaurant_order_action" model="ir.actions.act_window">
-        <field name="name">طلبات المطعم</field>
+        <field name="name">Restaurant Orders</field>
         <field name="res_model">restaurant.order</field>
         <field name="view_mode">list,kanban,form</field>
         <field name="search_view_id" ref="restaurant_order_view_search"/>
         <field name="context">{'search_default_today': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                أنشئ أول طلب للمطعم!
+                Create your first order for the restaurant!
             </p>
             <p>
-                سجّل الطلبات وادفع إلكترونياً عبر PayMob بكل سهولة.
+                Place orders and pay electronically via PayMob with ease. 
             </p>
         </field>
     </record>
